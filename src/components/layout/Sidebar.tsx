@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logo_light from "../../assets/meowly_light.png"
 
 const normalItems = [
   { name: "Dashboard", path: "/dashboard", icon: "🏠" },
