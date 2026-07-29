@@ -47,26 +47,23 @@ export default function Login() {
 
       const data = await response.json();
 
-      if (data.success) {
+      if (data.code == 200) {
         localStorage.setItem(
           "meowlyUser",
           JSON.stringify(data.user)
         );
 
-        if (
-          data.user.email ===
-          "maja.wronowska@interia.pl"
-        ) {
-          navigate("/admin");
-        } else {
-          navigate("/dashboard");
-        }
+        navigate("/dashboard");
 
         return;
       }
 
+      const messages = {
+        401: 'Niepoprawny email lub hasło.'
+      }
+
       setMessage(
-        data.message || "Nie udało się zalogować."
+        messages[data.code as keyof typeof messages] || "Nie udało się zalogować."
       );
     } catch (error) {
       console.error(error);

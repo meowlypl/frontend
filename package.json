@@ -14,7 +14,9 @@
     "leaflet": "^1.9.4",
     "lucide-react": "^1.27.0",
     "react": "^19.2.7",
+    "react-cookie-consent": "^10.0.1",
     "react-dom": "^19.2.7",
+    "react-easy-crop": "^6.2.3",
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.18.1",
     "tailwindcss": "^4.3.2"

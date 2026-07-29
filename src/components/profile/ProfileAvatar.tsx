@@ -3,8 +3,6 @@ import { useState } from "react";
 import Card from "../ui/Card";
 import Button from "../ui/Button";
 
-import { api } from "../services/api";
-
 interface Props {
   user: {
     id: number;
@@ -27,20 +25,19 @@ export default function ProfileAvatar({
     event: React.ChangeEvent<HTMLInputElement>
   ) {
     const file = event.target.files?.[0];
-
     if (!file) return;
 
     const formData = new FormData();
-
     formData.append("file", file);
 
     try {
       setLoading(true);
 
-      const response = await api.post(
-        `/upload-avatar/${user.id}`,
-        formData
-      );
+      const response = await fetch(`https://grosik.dev/upload-avatar/${user.id}`, {
+        body: formData,
+        method: 'POST',
+        headers: { "Content-Type":"multipart/form-data" }
+      }).then(_ => _.json());
 
       const newAvatar = response.data.avatar;
 

@@ -1,4 +1,4 @@
-const API_URL = "https://meowly.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL;
 
 async function request(
   endpoint: string,
@@ -41,4 +41,6 @@ export const api = {
     request(endpoint, {
       method: "DELETE",
     }),
+
+  request
 };
