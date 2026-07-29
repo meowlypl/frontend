@@ -12,10 +12,9 @@ const normalItems = [
 
 export default function Sidebar() {
   const user = JSON.parse(localStorage.getItem("meowlyUser") || "null");
-  const admins = [ "maja.wronowska@interia.pl", "antoniswiderek@gmail.com" ];
   
   const items =
-    admins.includes(user?.email)
+    user.role == 'admin'
       ? [...normalItems, { name: "Admin", path: "/admin", icon: "admin" }]
       : normalItems;
   const dark = localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)

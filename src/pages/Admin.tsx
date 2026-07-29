@@ -116,18 +116,17 @@ export default function Admin() {
     loadUsers();
   }
 
-  const admins = [ "maja.wronowska@interia.pl", "antoniswiderek@gmail.com" ];
-  if (!admin || !admins.includes(admin.email)) {
+  if (admin.role != 'admin') {
     return (
-      <main className="min-h-screen bg-[#fff8f0] flex items-center justify-center">
+      <main className="min-h-screen bg-light-base dark:bg-base flex items-center justify-center">
 
-        <div className="rounded-3xl bg-white p-12 shadow-xl">
+        <div className="rounded-3xl bg-light-overlay dark:bg-overlay p-12 shadow-xl">
 
-          <h1 className="text-4xl font-black">
+          <h1 className="text-4xl font-black text-light-text dark:text-text">
             Brak dostępu
           </h1>
 
-          <p className="mt-4 text-slate-500">
+          <p className="mt-4 text-light-subtext dark:text-subtext">
             Ten panel jest dostępny wyłącznie dla administratora.
           </p>
 
@@ -138,319 +137,315 @@ export default function Admin() {
   }
 
   return (
-    <main className="min-h-screen bg-[#fff8f0] dark:bg-[#080400] p-4">
+    <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
 
-      <section className="dark:bg-[#0f0f0f] dark:border-2 dark:border-orange-900 grid min-h-[calc(100vh-40px)] grid-cols-1 overflow-hidden rounded-[36px] bg-white shadow-2xl lg:grid-cols-[290px_1fr]">
+      <div className="hidden lg:block">
+        <Sidebar />
+      </div>
 
-        <div className="hidden lg:block">
-          <Sidebar />
-        </div>
+      <div className="flex flex-col">
 
-        <div className="flex flex-col">
+        <Navbar />
 
-          <Navbar />
+        <div className="p-6 lg:p-10">
 
-          <div className="p-6 lg:p-10">
+          <h1 className="text-5xl font-black dark:text-white">
+            Panel administratora
+          </h1>
 
-            <h1 className="text-5xl font-black dark:text-white">
-              Panel administratora
-            </h1>
+          <p className="mt-2 font-semibold text-slate-500">
+            Zarządzaj użytkownikami, misjami i aplikacją.
+          </p>
 
-            <p className="mt-2 font-semibold text-slate-500">
-              Zarządzaj użytkownikami, misjami i aplikacją.
-            </p>
+          <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
 
-            <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            <div className="rounded-3xl dark:border-2 dark:border-border p-7 shadow-xl">
 
-              <div className="rounded-3xl bg-orange-50 p-7 shadow-xl">
+              <p className="text-sm font-bold text-light-subtext dark:text-subtext">
+                Użytkownicy
+              </p>
 
-                <p className="text-sm font-bold text-orange-500">
-                  Użytkownicy
-                </p>
-
-                <h2 className="mt-2 text-5xl font-black">
-                  {users.length}
-                </h2>
-
-              </div>
-
-              <div className="rounded-3xl bg-orange-50 p-7 shadow-xl">
-
-                <p className="text-sm font-bold text-orange-500">
-                  Misje
-                </p>
-
-                <h2 className="mt-2 text-5xl font-black">
-                  {missions.length}
-                </h2>
-
-              </div>
-
-              <div className="rounded-3xl bg-orange-50 p-7 shadow-xl">
-
-                <p className="text-sm font-bold text-orange-500">
-                  XP łatwe
-                </p>
-
-                <h2 className="mt-2 text-5xl font-black">
-                  10
-                </h2>
-
-              </div>
-
-              <div className="rounded-3xl bg-orange-50 p-7 shadow-xl">
-
-                <p className="text-sm font-bold text-orange-500">
-                  Status
-                </p>
-
-                <h2 className="mt-2 text-2xl font-black text-green-600">
-                  Online
-                </h2>
-
-              </div>
+              <h2 className="mt-2 text-4xl font-black text-light-text dark:text-text">
+                {users.length}
+              </h2>
 
             </div>
-                        <div className="mt-10 grid gap-8 xl:grid-cols-[420px_1fr]">
 
-              <div className="rounded-[36px] bg-white p-8 shadow-xl">
+            <div className="rounded-3xl dark:border-2 dark:border-border p-7 shadow-xl">
 
-                <h2 className="text-3xl font-black">
+              <p className="text-sm font-bold text-light-subtext dark:text-subtext">
+                Misje
+              </p>
+
+              <h2 className="mt-2 text-4xl font-black text-light-text dark:text-text">
+                {missions.length}
+              </h2>
+
+            </div>
+
+            <div className="rounded-3xl dark:border-2 dark:border-border p-7 shadow-xl">
+
+              <p className="text-sm font-bold text-light-subtext dark:text-subtext">
+                XP łatwe
+              </p>
+
+              <h2 className="mt-2 text-4xl font-black text-light-text dark:text-text">
+                10
+              </h2>
+
+            </div>
+
+            <div className="rounded-3xl dark:border-2 dark:border-border p-7 shadow-xl">
+
+              <p className="text-sm font-bold text-light-subtext dark:text-subtext">
+                Status
+              </p>
+
+              <h2 className="mt-2 text-4xl font-black text-green-600">
+                Online
+              </h2>
+
+            </div>
+
+          </div>
+          <div className="mt-10 grid gap-8 xl:grid-cols-[420px_1fr]">
+
+            <div className="rounded-[36px] dark:border-2 dark:border-border p-8 shadow-xl">
+
+              <h2 className="text-3xl font-black">
+                Dodaj misję
+              </h2>
+
+              <p className="mt-2 font-semibold text-slate-500">
+                Utwórz nowe zadanie dla użytkowników.
+              </p>
+
+              <div className="mt-8 space-y-5">
+
+                <div>
+                  <label className="font-black">
+                    Nazwa misji
+                  </label>
+
+                  <input
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    className="mt-2 h-14 w-full rounded-2xl border-2 border-orange-200 px-5 outline-none focus:border-orange-500"
+                    placeholder="Np. Nakarm kota"
+                  />
+                </div>
+
+                <div>
+                  <label className="font-black">
+                    Opis
+                  </label>
+
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={5}
+                    className="mt-2 w-full rounded-2xl border-2 border-orange-200 p-5 outline-none focus:border-orange-500"
+                    placeholder="Opis misji..."
+                  />
+                </div>
+
+                <div>
+
+                  <label className="font-black">
+                    Poziom trudności
+                  </label>
+
+                  <div className="mt-3 grid grid-cols-3 gap-3">
+
+                    <button
+                      onClick={() => changeDifficulty("easy")}
+                      className={`btn rounded-2xl p-4 font-black ${
+                        difficulty === "easy"
+                          ? "bg-light-border dark:bg-border text-white"
+                          : "bg-light-overlay dark:bg-overlay"
+                      }`}
+                    >
+                      Łatwa
+                    </button>
+
+                    <button
+                      onClick={() => changeDifficulty("medium")}
+                      className={`btn rounded-2xl p-4 font-black ${
+                        difficulty === "medium"
+                          ? "bg-light-border dark:bg-border text-white"
+                          : "bg-light-overlay dark:bg-overlay"
+                      }`}
+                    >
+                      Średnia
+                    </button>
+
+                    <button
+                      onClick={() => changeDifficulty("hard")}
+                      className={`btn rounded-2xl p-4 font-black ${
+                        difficulty === "hard"
+                          ? "bg-light-border dark:bg-border text-white"
+                          : "bg-light-overlay dark:bg-overlay"
+                      }`}
+                    >
+                      Trudna
+                    </button>
+
+                  </div>
+
+                </div>
+
+                <div className="rounded-2xl bg-light-overlay dark:bg-overlay p-5">
+
+                  <p className="font-bold text-orange-600">
+                    Nagroda
+                  </p>
+
+                  <h3 className="mt-2 text-4xl font-black">
+                    {xp} XP
+                  </h3>
+
+                </div>
+
+                <button
+                  onClick={createMission}
+                  className="btn h-14 w-full rounded-2xl bg-light-border dark:bg-border font-black text-white"
+                >
                   Dodaj misję
-                </h2>
-
-                <p className="mt-2 font-semibold text-slate-500">
-                  Utwórz nowe zadanie dla użytkowników.
-                </p>
-
-                <div className="mt-8 space-y-5">
-
-                  <div>
-                    <label className="font-black">
-                      Nazwa misji
-                    </label>
-
-                    <input
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      className="mt-2 h-14 w-full rounded-2xl border-2 border-orange-200 px-5 outline-none focus:border-orange-500"
-                      placeholder="Np. Nakarm kota"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="font-black">
-                      Opis
-                    </label>
-
-                    <textarea
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      rows={5}
-                      className="mt-2 w-full rounded-2xl border-2 border-orange-200 p-5 outline-none focus:border-orange-500"
-                      placeholder="Opis misji..."
-                    />
-                  </div>
-
-                  <div>
-
-                    <label className="font-black">
-                      Poziom trudności
-                    </label>
-
-                    <div className="mt-3 grid grid-cols-3 gap-3">
-
-                      <button
-                        onClick={() => changeDifficulty("easy")}
-                        className={`btn rounded-2xl p-4 font-black ${
-                          difficulty === "easy"
-                            ? "bg-orange-500 text-white"
-                            : "bg-orange-50"
-                        }`}
-                      >
-                        Łatwa
-                      </button>
-
-                      <button
-                        onClick={() => changeDifficulty("medium")}
-                        className={`btn rounded-2xl p-4 font-black ${
-                          difficulty === "medium"
-                            ? "bg-orange-500 text-white"
-                            : "bg-orange-50"
-                        }`}
-                      >
-                        Średnia
-                      </button>
-
-                      <button
-                        onClick={() => changeDifficulty("hard")}
-                        className={`btn rounded-2xl p-4 font-black ${
-                          difficulty === "hard"
-                            ? "bg-orange-500 text-white"
-                            : "bg-orange-50"
-                        }`}
-                      >
-                        Trudna
-                      </button>
-
-                    </div>
-
-                  </div>
-
-                  <div className="rounded-2xl bg-orange-50 p-5">
-
-                    <p className="font-bold text-orange-600">
-                      Nagroda
-                    </p>
-
-                    <h3 className="mt-2 text-4xl font-black">
-                      {xp} XP
-                    </h3>
-
-                  </div>
-
-                  <button
-                    onClick={createMission}
-                    className="btn h-14 w-full rounded-2xl bg-gradient-to-r from-orange-400 to-orange-600 font-black text-white shadow-lg shadow-orange-200"
-                  >
-                    Dodaj misję
-                  </button>
-
-                </div>
-
-              </div>
-
-              <div className="rounded-[36px] bg-white p-8 shadow-xl">
-
-                <div className="flex items-center justify-between">
-
-                  <div>
-
-                    <h2 className="text-3xl font-black">
-                      Użytkownicy
-                    </h2>
-
-                    <p className="mt-2 font-semibold text-slate-500">
-                      Zarządzaj kontami.
-                    </p>
-
-                  </div>
-
-                  <button
-                    onClick={loadUsers}
-                    className="btn rounded-2xl bg-orange-500 px-6 py-3 font-black text-white"
-                  >
-                    Odśwież
-                  </button>
-
-                </div>
-
-                <div className="mt-8 space-y-4">
-
-                  {loading && (
-                    <p>Ładowanie...</p>
-                  )}
-
-                  {!loading &&
-                    users.map((user) => (
-                      <div
-                        key={user.id}
-                        className="flex items-center justify-between rounded-3xl bg-orange-50 p-5 transition hover:shadow-lg"
-                      >
-
-                        <div>
-
-                          <h3 className="text-lg font-black">
-                            {user.name}
-                          </h3>
-
-                          <p className="font-semibold text-slate-500">
-                            {user.email}
-                          </p>
-
-                          <span className="mt-2 inline-block rounded-full bg-white px-4 py-1 text-sm font-bold capitalize">
-                            {user.role}
-                          </span>
-
-                        </div>
-
-                        <button
-                          onClick={() => deleteUser(user.id)}
-                          className="btn rounded-2xl bg-red-500 px-5 py-3 font-black text-white"
-                        >
-                          Usuń
-                        </button>
-
-                      </div>
-                    ))}
-
-                </div>
+                </button>
 
               </div>
 
             </div>
-                        <div className="mt-10 rounded-[36px] bg-white p-8 shadow-xl">
+
+            <div className="rounded-[36px] dark:border-2 dark:border-border p-8 shadow-xl">
 
               <div className="flex items-center justify-between">
 
                 <div>
 
                   <h2 className="text-3xl font-black">
-                    Wszystkie misje
+                    Użytkownicy
                   </h2>
 
                   <p className="mt-2 font-semibold text-slate-500">
-                    Aktualnie dodane zadania.
+                    Zarządzaj kontami.
                   </p>
 
                 </div>
 
                 <button
-                  onClick={loadMissions}
-                  className="btn rounded-2xl bg-orange-500 px-6 py-3 font-black text-white"
+                  onClick={loadUsers}
+                  className="btn rounded-2xl bg-light-border dark:bg-border px-6 py-3 font-black text-white"
                 >
                   Odśwież
                 </button>
 
               </div>
 
-              <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              <div className="mt-8 space-y-4">
 
-                {missions.map((mission) => (
+                {loading && (
+                  <p>Ładowanie...</p>
+                )}
 
-                  <div
-                    key={mission.id}
-                    className="rounded-3xl bg-orange-50 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-                  >
+                {!loading &&
+                  users.map((user) => (
+                    <div
+                      key={user.id}
+                      className="flex items-center justify-between rounded-3xl bg-light-overlay dark:bg-overlay p-5 transition hover:shadow-lg"
+                    >
 
-                    <p className="text-sm font-bold uppercase tracking-wider text-orange-500">
-                      {mission.difficulty}
-                    </p>
+                      <div>
 
-                    <h3 className="mt-3 text-2xl font-black text-slate-900">
-                      {mission.title}
-                    </h3>
+                        <h3 className="text-lg font-black">
+                          {user.name}
+                        </h3>
 
-                    <div className="mt-6 flex items-center justify-between">
+                        <p className="font-semibold text-slate-500">
+                          {user.email}
+                        </p>
 
-                      <span className="rounded-full bg-white px-4 py-2 font-black">
-                        {mission.xp} XP
-                      </span>
+                        <span className="mt-2 inline-block rounded-full dark:border-2 dark:border-border px-4 py-1 text-sm font-bold capitalize">
+                          {user.role}
+                        </span>
+
+                      </div>
 
                       <button
-                        onClick={() => alert(`usun ${mission.title}`)}
-                        className="btn rounded-xl bg-red-500 px-4 py-2 font-bold text-white"
+                        onClick={() => deleteUser(user.id)}
+                        className="btn rounded-2xl bg-red-500 px-5 py-3 font-black text-white"
                       >
                         Usuń
                       </button>
 
                     </div>
+                  ))}
+
+              </div>
+
+            </div>
+
+          </div>
+          <div className="mt-10 rounded-[36px] dark:border-2 dark:border-border p-8 shadow-xl">
+
+            <div className="flex items-center justify-between">
+
+              <div>
+
+                <h2 className="text-3xl font-black">
+                  Wszystkie misje
+                </h2>
+
+                <p className="mt-2 font-semibold text-slate-500">
+                  Aktualnie dodane zadania.
+                </p>
+
+              </div>
+
+              <button
+                onClick={loadMissions}
+                className="btn rounded-2xl bg-light-border dark:bg-border px-6 py-3 font-black text-white"
+              >
+                Odśwież
+              </button>
+
+            </div>
+
+            <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+
+              {missions.map((mission) => (
+
+                <div
+                  key={mission.id}
+                  className="rounded-3xl bg-light-overlay dark:bg-overlay p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                >
+
+                  <p className="text-sm font-bold uppercase tracking-wider text-orange-500">
+                    {mission.difficulty}
+                  </p>
+
+                  <h3 className="mt-3 text-2xl font-black text-slate-900">
+                    {mission.title}
+                  </h3>
+
+                  <div className="mt-6 flex items-center justify-between">
+
+                    <span className="rounded-full dark:border-2 dark:border-border px-4 py-2 font-black">
+                      {mission.xp} XP
+                    </span>
+
+                    <button
+                      onClick={() => alert(`usun ${mission.title}`)}
+                      className="btn rounded-xl bg-red-500 px-4 py-2 font-bold text-white"
+                    >
+                      Usuń
+                    </button>
 
                   </div>
 
-                ))}
+                </div>
 
-              </div>
+              ))}
 
             </div>
 
@@ -458,7 +453,7 @@ export default function Admin() {
 
         </div>
 
-      </section>
+      </div>
 
     </main>
 

@@ -11,6 +11,7 @@ import Verified from "./pages/Verified";
 import Admin from "./pages/Admin";
 import Missions from "./pages/Missions";
 import Construction from "./pages/Construction";
+import FoundationPanel from "./pages/FoundationPanel";
 
 export default function App() {
   return (
@@ -34,8 +35,9 @@ export default function App() {
 
         <Route path="/missions" element={<Missions />} />
 
+        <Route path="/foundations" element={<FoundationPanel />} />
+        
         <Route path="/adoptions" element={<Construction />} />
-        <Route path="/foundations" element={<Construction />} />
         <Route path="/ranking" element={<Construction />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
