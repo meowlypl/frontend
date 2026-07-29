@@ -19,7 +19,7 @@ type Mission = {
   status?: string;
 };
 
-const API_URL = "https://meowly.onrender.com";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Construction() {
   return (
@@ -100,7 +100,7 @@ export function MissionTab() {
     <main className="min-h-screen">
       <div className="max-w-6xl">
         <section className="mb-8">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-orange-500">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-light-border">
             Pomagaj kotom w swojej okolicy
           </p>
           <h1 className="text-5xl font-black dark:text-white">
@@ -123,18 +123,18 @@ export function MissionTab() {
 
               <div className="mt-6 space-y-3 border-t border-gray-100 pt-5">
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <MapPin className="h-4 w-4 text-orange-500" />
+                  <MapPin className="h-4 w-4 text-light-border" />
                 </div>
 
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <Clock className="h-4 w-4 text-orange-500" />
+                  <Clock className="h-4 w-4 text-light-border" />
                 </div>
 
                 <div className="flex items-center gap-2 text-sm font-semibold text-orange-600">
                   <Trophy className="h-4 w-4" />
                 </div>
               </div>
-              <div className="mt-6 w-full rounded-2xl bg-orange-500 px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"></div>
+              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"></div>
             </article>
             <article className="flex flex-col rounded-3xl border-2 border-orange-100 dark:border-orange-900 p-6">
               <div className="mb-5 flex items-start justify-between gap-4">
@@ -143,18 +143,18 @@ export function MissionTab() {
 
               <div className="mt-6 space-y-3 border-t border-gray-100 pt-5">
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <MapPin className="h-4 w-4 text-orange-500" />
+                  <MapPin className="h-4 w-4 text-light-border" />
                 </div>
 
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <Clock className="h-4 w-4 text-orange-500" />
+                  <Clock className="h-4 w-4 text-light-border" />
                 </div>
 
                 <div className="flex items-center gap-2 text-sm font-semibold text-orange-600">
                   <Trophy className="h-4 w-4" />
                 </div>
               </div>
-              <div className="mt-6 w-full rounded-2xl bg-orange-500 px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"></div>
+              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"></div>
             </article>
             <article className="flex flex-col rounded-3xl border-2 border-orange-100 dark:border-orange-900 p-6">
               <div className="mb-5 flex items-start justify-between gap-4">
@@ -163,18 +163,18 @@ export function MissionTab() {
 
               <div className="mt-6 space-y-3 border-t border-gray-100 pt-5">
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <MapPin className="h-4 w-4 text-orange-500" />
+                  <MapPin className="h-4 w-4 text-light-border" />
                 </div>
 
                 <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <Clock className="h-4 w-4 text-orange-500" />
+                  <Clock className="h-4 w-4 text-light-border" />
                 </div>
 
                 <div className="flex items-center gap-2 text-sm font-semibold text-orange-600">
                   <Trophy className="h-4 w-4" />
                 </div>
               </div>
-              <div className="mt-6 w-full rounded-2xl bg-orange-500 px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"></div>
+              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"></div>
             </article>
           </main>
         ) : error ? (
@@ -190,7 +190,7 @@ export function MissionTab() {
           </div>
         ) : missions.length == 0 ? (
           // Brak misji
-          <div className="rounded-[36px] bg-orange-500 px-6 py-16 text-center shadow-sm text-white">
+          <div className="rounded-[36px] bg-light-border px-6 py-16 text-center shadow-sm text-white">
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white">
               <MapPin className="h-8 w-8 text-gray-500" />
             </div>
@@ -207,13 +207,13 @@ export function MissionTab() {
           // Misje
           <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {missions.map((mission) => (
-              <article
-                key={mission.id}
-                className="flex flex-col rounded-3xl border-2 border-orange-100 dark:border-orange-900 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+              <div
+                id={mission.id.toString()}
+                className="flex flex-col rounded-3xl border-2 border-light-overlay dark:border-border p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
               >
                 <div className="mb-5 flex items-start justify-between gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 dark:bg-orange-900">
-                    <MapPin className="h-6 w-6 text-orange-500 dark:text-orange-300" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-light-border dark:bg-orange-900">
+                    <MapPin className="h-6 w-6 text-light-base dark:text-orange-300" />
                   </div>
 
                   <span className="rounded-full bg-green-100 dark:bg-green-900 px-3 py-1 text-xs font-semibold text-green-700 dark:text-green-300">
@@ -230,20 +230,20 @@ export function MissionTab() {
                     "Pomóż fundacji wykonać tę misję i wesprzyj koty w potrzebie."}
                 </p>
 
-                <div className="mt-6 space-y-3 border-t border-gray-100 pt-5">
+                <div className="mt-6 space-y-3 border-t border-light-border pt-5">
                   <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                    <MapPin className="h-4 w-4 text-orange-500" />
+                    <MapPin className="h-4 w-4 text-light-border" />
 
                     <span>{mission.location || "Warszawa"}</span>
                   </div>
 
                   <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                    <Clock className="h-4 w-4 text-orange-500" />
+                    <Clock className="h-4 w-4 text-light-border" />
 
                     <span>{mission.distance || "W pobliżu"}</span>
                   </div>
 
-                  <div className="flex items-center gap-2 text-sm font-semibold text-orange-600">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-light-border">
                     <Trophy className="h-4 w-4" />
 
                     <span>+{mission.xp ?? 50} XP</span>
@@ -252,14 +252,14 @@ export function MissionTab() {
 
                 <button
                   type="button"
-                  className="mt-6 w-full rounded-2xl bg-orange-500 px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"
+                  className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"
                   onClick={() => {
                     window.alert(`Wybrano misję: ${mission.title}`);
                   }}
                 >
                   Zobacz misję
                 </button>
-              </article>
+              </div>
             ))}
           </section>
         )}

@@ -93,7 +93,7 @@ export default function Dashboard() {
 
             <div className="card-hover rounded-3xl border-2 border-light-overlay dark:border-border p-7 shadow-lg">
 
-              <p className="font-bold text-border">
+              <p className="font-bold text-light-border dark:text-border">
                 Misje
               </p>
 
@@ -109,7 +109,7 @@ export default function Dashboard() {
 
             <div className="card-hover rounded-3xl border-2 border-light-overlay dark:border-border p-7 shadow-lg">
 
-              <p className="font-bold text-border">
+              <p className="font-bold text-light-border dark:text-border">
                 Zgłoszenia
               </p>
 
@@ -125,7 +125,7 @@ export default function Dashboard() {
 
             <div className="card-hover rounded-3xl border-2 border-light-overlay dark:border-border p-7 shadow-lg">
 
-              <p className="font-bold text-border">
+              <p className="font-bold text-light-border dark:text-border">
                 Odznaki
               </p>
 
@@ -141,7 +141,7 @@ export default function Dashboard() {
 
             <div className="card-hover rounded-3xl border-2 border-light-overlay dark:border-border p-7 shadow-lg">
 
-              <p className="font-bold text-border">
+              <p className="font-bold text-light-border dark:text-border">
                 Ranking
               </p>
 
@@ -160,7 +160,7 @@ export default function Dashboard() {
 
             <div className="rounded-[36px] border-2 border-light-overlay dark:border-border p-8 shadow-xl">
 
-              <p className="font-semibold text-orange-500">
+              <p className="font-semibold text-light-border dark:text-border">
                 Najbliższa misja
               </p>
 
@@ -176,7 +176,7 @@ export default function Dashboard() {
 
               <div className="mt-8 flex flex-wrap gap-3">
 
-                <span className="rounded-full bg-orange-100 dark:bg-orange-600 px-5 py-2 font-semibold text-orange-600 dark:text-orange-100">
+                <span className="rounded-full bg-light-overlay dark:bg-border px-5 py-2 font-semibold text-light-text dark:text-text">
                   +50 XP
                 </span>
 
@@ -192,7 +192,7 @@ export default function Dashboard() {
 
               <button
                 onClick={() => navigate("/map")}
-                className="btn mt-8 h-14 w-full rounded-2xl bg-orange-500 font-semibold text-white"
+                className="btn mt-8 h-14 w-full rounded-2xl bg-light-border dark:bg-border font-semibold text-white"
               >
                 Rozpocznij misję
               </button>
@@ -280,33 +280,33 @@ export default function Dashboard() {
 
             </div>
 
-            <div className="rounded-[36px] bg-white p-8 shadow-xl">
+            <div className="rounded-[36px] border-2 border-light-overlay dark:border-border p-8 shadow-xl">
 
-              <h2 className="text-3xl font-semibold">
+              <h2 className="text-3xl font-black text-light-text dark:text-text">
                 Ostatnie odznaki
               </h2>
 
               <div className="mt-8 grid grid-cols-2 gap-5">
 
-                <div className="rounded-3xl bg-orange-50 p-6 text-center">
+                <div className="rounded-2xl bg-light-overlay dark:bg-overlay p-5 text-center">
 
                   <div className="text-5xl">
                     🐾
                   </div>
 
-                  <h3 className="mt-4 font-semibold">
+                  <h3 className="mt-4 font-semibold text-light-text dark:text-text">
                     Brak
                   </h3>
 
                 </div>
 
-                <div className="rounded-3xl bg-orange-50 p-6 text-center">
+                <div className="rounded-2xl bg-light-overlay dark:bg-overlay p-5 text-center">
 
                   <div className="text-5xl">
                     ⭐
                   </div>
 
-                  <h3 className="mt-4 font-semibold">
+                  <h3 className="mt-4 font-semibold text-light-text dark:text-text">
                     Brak
                   </h3>
 

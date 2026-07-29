@@ -15,16 +15,7 @@ export default function Navbar() {
       </div>
 
       <div className="flex items-center gap-5">
-        <button
-            onClick={() => {
-                localStorage.removeItem('meowlyUser');
-                window.location.href = "/";
-            }}
-            className="btn rounded-2xl bg-light-overlay dark:bg-orange-950 px-4 py-3 font-black text-orange-600 dark:text-text"
-        >
-            Wyloguj
-        </button>
-        
+    
         <span className="text-2xl">🔔</span>
 
         <button
@@ -34,7 +25,7 @@ export default function Navbar() {
           {localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches) ? '☀️' : '🌙' /* 'light_mode' : 'dark_mode'*/}
         </button>
 
-        <a href="/profile" className="btn flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-[#f38434] font-black text-white">
+        <a href="/profile" className="btn flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-light-border dark:bg-border font-black text-text">
             {avatar ? (
                  <img
                     src={avatar}

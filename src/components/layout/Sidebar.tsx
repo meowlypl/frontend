@@ -26,7 +26,7 @@ export default function Sidebar() {
         to="/dashboard"
       >
         <img
-          src={logo_light}
+          src={localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches) ? '/logo_dark.svg' : '/logo_light.svg'}
           width='75%'
           className="mx-auto mb-8 cursor-pointer"
         />
@@ -38,7 +38,7 @@ export default function Sidebar() {
           <Link
             key={item.name}
             to={item.path}
-            className={`btn flex items-center gap-3 rounded-2xl px-5 py-4 transition hover:text-orange-500 dark:hover:text-orange-200 ${window.location.pathname == item.path ? 'bg-[#896a3650] dark:bg-[#c15a15] text-light-text dark:text-sidebar font-bold' : 'text-light-subtext dark:text-subtext hover:bg-light-overlay dark:hover:bg-overlay' }`}
+            className={`btn flex gap-3 rounded-2xl px-5 py-4 transition hover:text-light-border dark:hover:text-border ${window.location.pathname == item.path ? 'bg-[#896a3650] dark:bg-[#c15a15] text-light-text dark:text-sidebar font-bold' : 'text-light-subtext dark:text-subtext hover:bg-light-overlay dark:hover:bg-overlay' }`}
           >
             <span>{item.icon}</span>
             {item.name}

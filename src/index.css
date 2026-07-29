@@ -6,13 +6,14 @@
   --color-sidebar: #fef4f5;
   --color-subtext: #f3d9ad;
   --color-overlay: #26180d;
-  --color-border: #ef6b14;
+  --color-border: #c15a15;
 
   --color-light-base: #fdf3e7;
   --color-light-text: #5a3010;
   --color-light-sidebar: #fef4f5;
   --color-light-subtext: #80664d;
   --color-light-overlay: #f0e3cc;
+  --color-light-border: #896a36;
 }
 @custom-variant dark (&:where(.dark, .dark *));
 

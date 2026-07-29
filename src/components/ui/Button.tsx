@@ -22,7 +22,7 @@ export default function Button({
 }: ButtonProps) {
   const variants = {
     primary:
-      "bg-orange-500 text-white shadow-lg shadow-orange-200 dark:shadow-orange-900 hover:brightness-105",
+      "bg-light-border dark:bg-border text-white hover:brightness-105",
 
     secondary:
       "bg-orange-50 text-orange-600 hover:bg-orange-100",
@@ -43,7 +43,7 @@ export default function Button({
         h-14
         rounded-2xl
         px-6
-        font-black
+        font-semibold
         transition-all
         duration-200
         active:scale-95

@@ -38,8 +38,8 @@ export default function Card({
         rounded-[32px]
         shadow-xl
         border-2
-        border-orange-100
-        dark:border-orange-900
+        border-light-overlay
+        dark:border-border
         ${paddings[padding]}
         ${hover ? "card-hover" : ""}
         ${className}
@@ -49,13 +49,13 @@ export default function Card({
         <div className="mb-5">
 
           {title && (
-            <h2 className="text-2xl font-black text-slate-900">
+            <h2 className="text-2xl font-black text-light-text dark:text-text">
               {title}
             </h2>
           )}
 
           {subtitle && (
-            <p className="mt-2 font-semibold text-slate-500">
+            <p className="mt-2 text-light-subtext dark:text-subtext">
               {subtitle}
             </p>
           )}

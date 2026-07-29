@@ -42,27 +42,27 @@ export default function ProfileActivity() {
       subtitle="Twoje ostatnie działania w Meowly."
     >
       <div className="space-y-4">
-        {activities.length === 0 ? (
-          <div className="rounded-2xl bg-orange-50 p-6 text-center text-slate-500">
+        {activities.length == 0 ? (
+          <div className="rounded-2xl bg-light-overlay dark:bg-overlay p-6 text-center text-light-subtext dark:text-subtext">
             Brak aktywności.
           </div>
         ) : (
           activities.map((activity) => (
             <div
               key={activity.id}
-              className="rounded-2xl border border-orange-100 bg-orange-50 p-5 transition hover:shadow-md"
+              className="rounded-2xl bg-light-overlay dark:bg-overlay p-5 transition hover:shadow-md"
             >
               <div className="flex items-center justify-between">
-                <h3 className="font-black text-slate-900">
+                <h3 className="font-semibold text-light-text dark:text-text">
                   {activity.title}
                 </h3>
 
-                <span className="text-sm font-semibold text-slate-400">
+                <span className="text-sm font-semibold text-light-subtext dark:text-subtext">
                   {activity.date}
                 </span>
               </div>
 
-              <p className="mt-2 text-slate-600">
+              <p className="mt-2 text-light-subtext dark:text-subtext">
                 {activity.description}
               </p>
             </div>

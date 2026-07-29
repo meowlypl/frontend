@@ -67,7 +67,7 @@ export default function ProfileAvatar({
 
       <div className="flex flex-col items-center">
 
-        <div className="mb-6 h-40 w-40 overflow-hidden rounded-full bg-orange-500 shadow-xl">
+        <div className="mb-6 h-40 w-40 overflow-hidden rounded-full bg-light-border dark:bg-border shadow-xl">
 
           {avatar ? (
             <img
@@ -105,8 +105,22 @@ export default function ProfileAvatar({
           type="button"
           fullWidth
           loading={loading}
+          disabled
         >
           Zmień zdjęcie
+        </Button>
+
+        <Button
+          onClick={() => {
+            localStorage.removeItem('meowlyUser');
+            window.location.href = "/";
+          }}
+          className="mt-3 block w-full"
+          type="button"
+          fullWidth
+          loading={loading}
+        >
+          Wyloguj
         </Button>
 
       </div>
