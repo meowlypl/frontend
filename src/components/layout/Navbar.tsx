@@ -16,7 +16,7 @@ export default function Navbar() {
 
       <div className="flex items-center gap-5">
     
-        <span className="text-2xl">🔔</span>
+        {/* <span className="text-2xl">🔔</span> */}
 
         <button
           className="material-symbols-outlined btn text-2xl"

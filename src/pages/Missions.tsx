@@ -98,16 +98,16 @@ export function MissionTab() {
   if(error) console.log(error)
   return (
     <main className="min-h-screen">
-      <div className="max-w-6xl">
+      <div className="w-full">
         <section className="mb-8">
           <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-light-border">
             Pomagaj kotom w swojej okolicy
           </p>
-          <h1 className="text-5xl font-black dark:text-white">
+          <h1 className="text-5xl font-black text-light-text dark:text-text">
             Dostępne misje
           </h1>
 
-          <p className="mt-2 font-semibold text-slate-500">
+          <p className="mt-2 font-semibold text-light-subtext dark:text-subtext">
             Wybierz zadanie, zdobądź punkty XP i realnie pomóż bezdomnym
             kotom.
           </p>
@@ -134,7 +134,7 @@ export function MissionTab() {
                   <Trophy className="h-4 w-4" />
                 </div>
               </div>
-              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"></div>
+              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition active:scale-[0.98]"></div>
             </article>
             <article className="flex flex-col rounded-3xl border-2 border-orange-100 dark:border-orange-900 p-6">
               <div className="mb-5 flex items-start justify-between gap-4">
@@ -154,7 +154,7 @@ export function MissionTab() {
                   <Trophy className="h-4 w-4" />
                 </div>
               </div>
-              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"></div>
+              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition active:scale-[0.98]"></div>
             </article>
             <article className="flex flex-col rounded-3xl border-2 border-orange-100 dark:border-orange-900 p-6">
               <div className="mb-5 flex items-start justify-between gap-4">
@@ -174,7 +174,7 @@ export function MissionTab() {
                   <Trophy className="h-4 w-4" />
                 </div>
               </div>
-              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"></div>
+              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition active:scale-[0.98]"></div>
             </article>
           </main>
         ) : error ? (
@@ -205,7 +205,7 @@ export function MissionTab() {
           </div>
         ) : (
           // Misje
-          <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {missions.map((mission) => (
               <div
                 id={mission.id.toString()}
@@ -230,20 +230,20 @@ export function MissionTab() {
                     "Pomóż fundacji wykonać tę misję i wesprzyj koty w potrzebie."}
                 </p>
 
-                <div className="mt-6 space-y-3 border-t border-light-border pt-5">
+                <div className="mt-6 space-y-3 border-t border-light-border dark:border-border pt-5">
                   <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                    <MapPin className="h-4 w-4 text-light-border" />
+                    <MapPin className="h-4 w-4 text-light-border dark:text-border" />
 
                     <span>{mission.location || "Warszawa"}</span>
                   </div>
 
                   <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                    <Clock className="h-4 w-4 text-light-border" />
+                    <Clock className="h-4 w-4 text-light-border dark:text-border" />
 
                     <span>{mission.distance || "W pobliżu"}</span>
                   </div>
 
-                  <div className="flex items-center gap-2 text-sm font-semibold text-light-border">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-light-border dark:text-border">
                     <Trophy className="h-4 w-4" />
 
                     <span>+{mission.xp ?? 50} XP</span>
@@ -252,7 +252,7 @@ export function MissionTab() {
 
                 <button
                   type="button"
-                  className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition hover:bg-orange-600 active:scale-[0.98]"
+                  className="cursor-pointer mt-6 w-full rounded-2xl bg-light-border dark:bg-border px-4 py-3 font-semibold text-white transition active:scale-[0.98]"
                   onClick={() => {
                     window.alert(`Wybrano misję: ${mission.title}`);
                   }}
