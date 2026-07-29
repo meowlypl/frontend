@@ -192,7 +192,7 @@ export default function Dashboard() {
 
               <button
                 onClick={() => navigate("/map")}
-                className="btn mt-8 h-14 w-full rounded-2xl bg-orange-500 font-semibold text-white shadow-lg shadow-orange-200 dark:shadow-orange-900"
+                className="btn mt-8 h-14 w-full rounded-2xl bg-orange-500 font-semibold text-white"
               >
                 Rozpocznij misję
               </button>
