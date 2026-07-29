@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Spray+Paint&display=swap');
+@import "tailwindcss";
+@theme {
+  --color-base: #130b07;
+  --color-text: #fbedc6;
+  --color-sidebar: #fef4f5;
+  --color-subtext: #f3d9ad;
+  --color-overlay: #26180d;
+  --color-border: #ef6b14;
+
+  --color-light-base: #fdf3e7;
+  --color-light-text: #5a3010;
+  --color-light-sidebar: #fef4f5;
+  --color-light-subtext: #80664d;
+  --color-light-overlay: #f0e3cc;
+}
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer utilities {
+  .btn {
+    @apply transition-all duration-200 ease-out;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  .btn:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+  }
+
+  .btn:active {
+    transform: scale(.95);
+  }
+
+  .card-hover {
+    transition: .3s;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-6px);
+  }
+  
+  .header {
+    font-family: "Rubik Spray Paint", system-ui;
+    font-weight: 200;
+  }
+}
