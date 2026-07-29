@@ -159,7 +159,7 @@ export default function Admin() {
 
           <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
 
-            <div className="rounded-3xl dark:border-2 dark:border-border p-7 shadow-xl">
+            <div className="rounded-3xl border-2 border-light-overlay dark:border-border p-7 shadow-xl">
 
               <p className="text-sm font-bold text-light-subtext dark:text-subtext">
                 Użytkownicy
@@ -171,7 +171,7 @@ export default function Admin() {
 
             </div>
 
-            <div className="rounded-3xl dark:border-2 dark:border-border p-7 shadow-xl">
+            <div className="rounded-3xl border-2 border-light-overlay dark:border-border p-7 shadow-xl">
 
               <p className="text-sm font-bold text-light-subtext dark:text-subtext">
                 Misje
@@ -183,7 +183,7 @@ export default function Admin() {
 
             </div>
 
-            <div className="rounded-3xl dark:border-2 dark:border-border p-7 shadow-xl">
+            <div className="rounded-3xl border-2 border-light-overlay dark:border-border p-7 shadow-xl">
 
               <p className="text-sm font-bold text-light-subtext dark:text-subtext">
                 XP łatwe
@@ -195,7 +195,7 @@ export default function Admin() {
 
             </div>
 
-            <div className="rounded-3xl dark:border-2 dark:border-border p-7 shadow-xl">
+            <div className="rounded-3xl border-2 border-light-overlay dark:border-border p-7 shadow-xl">
 
               <p className="text-sm font-bold text-light-subtext dark:text-subtext">
                 Status
@@ -210,7 +210,7 @@ export default function Admin() {
           </div>
           <div className="mt-10 grid gap-8 xl:grid-cols-[420px_1fr]">
 
-            <div className="rounded-[36px] dark:border-2 dark:border-border p-8 shadow-xl">
+            <div className="rounded-[36px] border-2 border-light-overlay dark:border-border p-8 shadow-xl">
 
               <h2 className="text-3xl font-black">
                 Dodaj misję
@@ -317,7 +317,7 @@ export default function Admin() {
 
             </div>
 
-            <div className="rounded-[36px] dark:border-2 dark:border-border p-8 shadow-xl">
+            <div className="rounded-[36px] border-2 border-light-overlay dark:border-border p-8 shadow-xl">
 
               <div className="flex items-center justify-between">
 
@@ -365,7 +365,7 @@ export default function Admin() {
                           {user.email}
                         </p>
 
-                        <span className="mt-2 inline-block rounded-full dark:border-2 dark:border-border px-4 py-1 text-sm font-bold capitalize">
+                        <span className="mt-2 inline-block rounded-full border-2 border-light-overlay dark:border-border px-4 py-1 text-sm font-bold capitalize">
                           {user.role}
                         </span>
 
@@ -386,7 +386,7 @@ export default function Admin() {
             </div>
 
           </div>
-          <div className="mt-10 rounded-[36px] dark:border-2 dark:border-border p-8 shadow-xl">
+          <div className="mt-10 rounded-[36px] border-2 border-light-overlay dark:border-border p-8 shadow-xl">
 
             <div className="flex items-center justify-between">
 
@@ -430,7 +430,7 @@ export default function Admin() {
 
                   <div className="mt-6 flex items-center justify-between">
 
-                    <span className="rounded-full dark:border-2 dark:border-border px-4 py-2 font-black">
+                    <span className="rounded-full border-2 border-light-overlay dark:border-border px-4 py-2 font-black">
                       {mission.xp} XP
                     </span>
 
