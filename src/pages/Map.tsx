@@ -4,7 +4,6 @@ import Sidebar from "../components/layout/Sidebar";
 import Navbar from "../components/layout/Navbar";
 
 import MarkerFilters from "../components/map/MarkerFilters";
-// import MarkerList from "../components/map/MarkerList";
 import MapView from "../components/map/MapView";
 import MarkerForm from "../components/map/MarkerForm";
 
@@ -30,7 +29,7 @@ export default function MapPage() {
     } | null>(null);
 
   async function loadMarkers() {
-    fetch(`${import.meta.env.VITE_API_URL}/markers`, )
+    fetch(`${import.meta.env.VITE_API_URL}/markers`)
       .then(async r => {
         const res = await r.json()
         if(r.status == 200) return setMarkers(res)
@@ -61,7 +60,7 @@ export default function MapPage() {
   const [dark, setDark] = useState<boolean>();
   useEffect(() => {
     setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
-  })
+  }, [])
 
   return (
     <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
@@ -82,10 +81,6 @@ export default function MapPage() {
           selectedType={selectedType}
           setSelectedType={setSelectedType}
         />
-
-        {/* <MarkerList
-          markers={visibleMarkers}
-        /> */}
 
         <MapView
           markers={visibleMarkers}

@@ -25,10 +25,10 @@ export default function Button({
       "bg-light-border dark:bg-border text-white hover:brightness-105",
 
     secondary:
-      "bg-light-overlay dark:bg-overlay text-light-text dark:text-text hover:brightness-105",
+      "bg-light-overlay dark:bg-overlay text-light-text dark:text-text hover:brightness-105 shadow-2xl",
 
     danger:
-      "bg-[#ff030c36] text-red-500 hover:bg-red-600",
+      "bg-[#ff030c36] text-red-500 hover:bg-[#ff030c40]",
 
     success:
       "bg-green-500 text-white hover:bg-green-600",

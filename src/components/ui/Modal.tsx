@@ -50,22 +50,22 @@ export default function Modal({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`w-full ${widths[width]} animate-[fadeIn_.25s_ease] rounded-[36px] bg-white shadow-2xl`}
+        className={`w-full ${widths[width]} animate-[fadeIn_.25s_ease] rounded-[36px] bg-light-base dark:bg-base shadow-2xl overflow-hidden`}
       >
-        <div className="flex items-center justify-between border-b border-orange-100 px-8 py-6">
-          <h2 className="text-3xl font-black text-slate-900">
+        <div className="flex items-center justify-between border-b border-light-overlay dark:border-overlay px-8 py-6">
+          <h2 className="text-3xl font-black text-light-text dark:text-text">
             {title}
           </h2>
 
           <button
             onClick={onClose}
-            className="btn flex h-12 w-12 items-center justify-center rounded-full bg-orange-50 text-2xl font-bold text-orange-500 hover:bg-orange-100"
+            className="btn flex h-12 w-12 items-center justify-center rounded-full bg-light-overlay dark:bg-overlay text-2xl font-bold text-light-border dark:text-border hover:brightness-105"
           >
             ✕
           </button>
         </div>
 
-        <div className="max-h-[80vh] overflow-y-auto p-8">
+        <div className="max-h-[80vh] overflow-y-auto pt-4 p-8">
           {children}
         </div>
       </div>

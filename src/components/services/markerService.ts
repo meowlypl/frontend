@@ -11,15 +11,15 @@ class MarkerService {
   }
 
   async createMarker(marker: Omit<Marker, "id">) {
-    return await api.post("/admin/markers", marker);
+    return await api.post("/admin/marker", marker);
   }
 
   async updateMarker(id: number, marker: Partial<Marker>) {
-    return await api.put(`/admin/markers/${id}`, marker);
+    return await api.put(`/admin/marker/${id}`, marker);
   }
 
   async deleteMarker(id: number) {
-    return await api.delete(`/admin/markers/${id}`);
+    return await api.delete(`/admin/marker/${id}`);
   }
 }
 

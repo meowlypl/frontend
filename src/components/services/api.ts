@@ -7,6 +7,7 @@ async function request(
   const response = await fetch(`${API_URL}${endpoint}`, {
     headers: {
       "Content-Type": "application/json",
+      authorization: localStorage.token||'',
       ...(options.headers || {}),
     },
     ...options,

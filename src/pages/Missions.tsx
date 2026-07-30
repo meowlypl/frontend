@@ -25,7 +25,7 @@ export default function Construction() {
   const [dark, setDark] = useState<boolean>();
   useEffect(() => {
     setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
-  })
+  }, [])
 
   return (
     <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">

@@ -54,6 +54,14 @@ export default function MarkerForm({
     setAddress("");
     setType("foundation");
     setXp(20);
+
+    fetch(`https://nominatim.openstreetmap.org/reverse?lat=${position?.lat}&lon=${position?.lng}&format=json`)
+      .then(_ => _.json())
+      .then(add => {
+        setTitle(add.type == 'parking' ? `Parking ${add.name}`.replace(/ $/i, '') : add.name || '')
+        let parts = [add.address.road ? `${add.address.road}${add.address.house_number ? ` ${add.address.house_number}` : ''}`: '', (add.address.city||add.address.town||add.address.village||'') + (!add.address.road&&add.address.house_number?` ${add.address.house_number}`:''), add.address.country||'Poland' != 'Poland' ? add.address.country : ''].filter(a => a.length>0)
+        setAddress(parts.join(', '))
+      })
   }, [open]);
 
   async function saveMarker() {
@@ -108,14 +116,14 @@ export default function MarkerForm({
 
         <div>
 
-          <label className="mb-2 block font-black text-slate-800">
+          <label className="mb-2 block font-semibold text-light-subtext dark:text-subtext">
             Typ punktu
           </label>
 
           <select
             value={type}
             onChange={(e) => setType(e.target.value as MarkerType)}
-            className="h-14 w-full rounded-2xl border-2 border-orange-200 px-5 outline-none transition focus:border-orange-500"
+            className="h-14 w-full rounded-2xl border-2 border-light-overlay dark:border-overlay bg-light-overlay dark:bg-overlay text-light-text dark:text-text px-5 outline-none transition focus:border-light-border dark:focus:border-border"
           >
             <option value="foundation">Fundacja</option>
             <option value="mission">Misja</option>
@@ -130,7 +138,7 @@ export default function MarkerForm({
 
         <div>
 
-          <label className="mb-2 block font-black text-slate-800">
+          <label className="mb-2 block font-semibold text-light-subtext dark:text-subtext">
             Opis
           </label>
 
@@ -140,7 +148,7 @@ export default function MarkerForm({
             onChange={(e) =>
               setDescription(e.target.value)
             }
-            className="w-full rounded-2xl border-2 border-orange-200 p-5 outline-none transition focus:border-orange-500"
+            className="min-h-[10em] w-full rounded-2xl border-2 border-light-overlay dark:border-overlay bg-light-overlay dark:bg-overlay py-3 px-5 text-light-text dark:text-text outline-none transition focus:border-light-border dark:focus:border-border placeholder:text-light-subtext dark:text-subtext"
             placeholder="Opisz to miejsce..."
           />
 
@@ -156,17 +164,17 @@ export default function MarkerForm({
         />
 
         {position && (
-          <div className="rounded-2xl bg-orange-50 p-4">
+          <div className="rounded-2xl bg-light-overlay dark:bg-overlay p-4">
 
-            <h3 className="font-black">
+            <h3 className="font-semibold text-light-text dark:text-text">
               Lokalizacja
             </h3>
 
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-light-subtext dark:text-subtext">
               Lat: {position.lat.toFixed(6)}
             </p>
 
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-light-subtext dark:text-subtext">
               Lng: {position.lng.toFixed(6)}
             </p>
 

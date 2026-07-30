@@ -10,7 +10,11 @@ const normalItems = [
   { name: "Profil", path: "/profile", icon: "profil" },
 ];
 
-export default function Sidebar() {
+interface MenuParams {
+  visible: boolean;
+}
+
+export default function MobileMenu({ visible } : MenuParams) {
   const user = JSON.parse(localStorage.getItem("meowlyUser") || "null");
   
   const items =
@@ -20,18 +24,7 @@ export default function Sidebar() {
   const dark = localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
 
   return (
-    <aside className="w-72 h-full border-r border-2 border-light-overlay dark:border-overlay bg-light-base p-8 dark:bg-base fixed">
-      <Link
-        to="/dashboard"
-      >
-        <img
-          src={dark ? '/logo_dark.svg' : '/logo_light.svg'}
-          width='75%'
-          className="mx-auto mb-8 cursor-pointer"
-        />
-      </Link>
-
-
+    <aside className={`z-1000 w-72 h-full border-l border-light-overlay dark:border-overlay bg-light-base p-8 dark:bg-base fixed right-0 top-20 ${visible ? 'sm:hidden' : 'hidden'}`}>
       <nav className="space-y-2">
         {items.map((item) => (
           <Link

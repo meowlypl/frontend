@@ -31,6 +31,7 @@ export default function MarkerFilters({
       
       <Input
         placeholder="Szukaj miejsca..."
+        className="shadow-2xl"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
@@ -40,6 +41,7 @@ export default function MarkerFilters({
         {filters.map((filter) => (
           <Button
             key={filter.value}
+            className="shadow-5xl"
             variant={
               selectedType === filter.value
                 ? "primary"

@@ -52,11 +52,11 @@ export default function MarkerPopup({
 
       <div className="mt-5 flex items-center justify-between">
 
-        <span className="rounded-full bg-orange-100 px-3 py-1 text-sm font-black text-orange-600">
+        <span className="rounded-full bg-light-border dark:bg-border px-3 py-1 text-sm font-black text-white">
           +{marker.xp} XP
         </span>
 
-        <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-600">
+        <span className="rounded-full bg-light-overlay dark:bg-overlay px-3 py-1 text-sm font-semibold text-light-subtext dark:text-subtext">
           {marker.type}
         </span>
 
