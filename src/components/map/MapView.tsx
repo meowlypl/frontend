@@ -7,25 +7,25 @@ import {
 
 import "leaflet/dist/leaflet.css";
 
-import L from "leaflet";
+// import L from "leaflet";
 
 import AddMarkerMap from "./AddMarkerMap";
 import MarkerPopup from "./MarkerPopup";
 
 import type { Marker as MarkerType } from "../../types/Marker";
 
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+// delete (L.Icon.Default.prototype as any)._getIconUrl;
 
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+// L.Icon.Default.mergeOptions({
+//   iconRetinaUrl:
+//     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
 
-  iconUrl:
-    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+//   iconUrl:
+//     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
 
-  shadowUrl:
-    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-});
+//   shadowUrl:
+//     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+// });
 
 interface Props {
   markers: MarkerType[];
@@ -90,13 +90,13 @@ export default function MapView({
       </MapContainer>
 
       {isAdmin && (
-        <div className="absolute bottom-6 right-6 z-[1000] rounded-3xl bg-white p-4 shadow-2xl">
+        <div className="fixed top-34 right-6 z-[1000] rounded-3xl bg-light-base dark:bg-base p-5 pt-4 shadow-2xl">
 
-          <h3 className="text-lg font-black text-slate-900">
+          <h3 className="text-lg font-black text-light-text dark:text-text">
             Administrator
           </h3>
 
-          <p className="mt-2 max-w-xs text-sm leading-6 text-slate-500">
+          <p className="mt-2 max-w-xs text-sm leading-6 text-light-subtext dark:text-subtext">
             Kliknij w dowolne miejsce na mapie,
             aby dodać nowy punkt.
           </p>

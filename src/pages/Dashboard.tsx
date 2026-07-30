@@ -116,7 +116,7 @@ export default function Dashboard() {
 
               </div>
 
-              <div className="h-4 overflow-hidden rounded-full bg-white dark:bg-light-text">
+              <div className="h-4 overflow-hidden rounded-full bg-light-base dark:bg-light-text">
 
                 <div
                   className="h-full rounded-full bg-light-text dark:bg-text transition-all duration-500"
@@ -218,15 +218,15 @@ export default function Dashboard() {
 
               <div className="mt-8 flex flex-wrap gap-3">
 
-                <span className="rounded-full bg-light-overlay dark:bg-border px-5 py-2 font-semibold text-light-text dark:text-text">
+                <span className="rounded-full bg-subtext dark:bg-border px-5 py-2 font-semibold text-light-text dark:text-text">
                   +50 XP
                 </span>
 
-                <span className="rounded-full bg-white dark:bg-overlay px-5 py-2 font-semibold text-light-text dark:text-subtext">
+                <span className="rounded-full bg-light-overlay dark:bg-overlay px-5 py-2 font-semibold text-light-text dark:text-subtext">
                   300 m
                 </span>
 
-                <span className="rounded-full bg-white dark:bg-overlay px-5 py-2 font-semibold text-light-text dark:text-subtext">
+                <span className="rounded-full bg-light-overlay dark:bg-overlay px-5 py-2 font-semibold text-light-text dark:text-subtext">
                   Łatwa
                 </span>
 

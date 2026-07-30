@@ -56,7 +56,8 @@ export default function Login() {
       }
 
       const messages = {
-        401: 'Niepoprawny email lub hasło.'
+        401: 'Niepoprawny email lub hasło.',
+        403: 'Najpierw potwierdź adres email.'
       }
 
       setMessage(

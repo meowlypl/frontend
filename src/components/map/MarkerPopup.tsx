@@ -30,13 +30,13 @@ export default function MarkerPopup({
 
       {marker.image && (
         <img
-          src={marker.image}
+          src={'/icon_light/fundacje.svg'}
           alt={marker.title}
-          className="mb-4 h-40 w-full rounded-2xl object-cover"
+          className="mb-4 h-40 w-full rounded-[2xl] object-cover"
         />
       )}
 
-      <h2 className="text-xl font-black text-slate-900">
+      <h2 className="text-xl font-black text-light-text dark:text-text mt-8">
         {marker.title}
       </h2>
 

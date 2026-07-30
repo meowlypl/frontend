@@ -51,11 +51,25 @@
   }
 
   .leaflet-left .leaflet-control {
-    margin-top: 16px !important;
-    margin-right: 16px;
+    margin-left: 16px !important;
+    margin-bottom: 16px;
   }
   .leaflet-left {
     right: 0;
-    left: unset !important;
+    bottom: 0;
+    top: unset !important;
+  }
+  .leaflet-popup-content-wrapper {
+    border-radius: 36px !important;
+    padding: 4px !important;
+    background-color: var(--color-light-base) !important;
+  }
+  .dark .leaflet-popup-content-wrapper {
+    background-color: var(--color-base) !important;
+  }
+  .leaflet-popup-close-button {
+    top: 12px !important;
+    right: 20px !important;
+    font-size: 2.5em !important;
   }
 }

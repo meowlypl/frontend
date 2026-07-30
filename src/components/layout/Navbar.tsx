@@ -26,7 +26,7 @@ export default function Navbar({ dark, setDark } : NavbarParams) {
       <div className="flex items-center gap-5">
 
         <button
-          className="material-symbols-outlined btn text-2xl"
+          className="btn text-2xl"
           onClick={ () => {
             localStorage.theme = (dark ? 'light' : 'dark');
             document.documentElement.classList.toggle(

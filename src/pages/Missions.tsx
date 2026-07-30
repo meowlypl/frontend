@@ -124,10 +124,11 @@ export function MissionTab() {
         
         {loading ? (
           // Ładowanie
-          <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {[0,1,2].map((i) => (
             <div
-              className={`h-103 flex flex-col rounded-3xl border-2 border-light-overlay dark:border-border p-6 opacity-${Math.floor((3-i)/3*10)*10}`}
+              className={`h-103 flex flex-col rounded-3xl border-2 border-light-overlay dark:border-border p-6`}
+              style={{ opacity: Math.floor((3-i)/3*10)/10 }}
             >
               <div className="mb-5 flex items-start justify-between gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-light-border dark:bg-orange-900">

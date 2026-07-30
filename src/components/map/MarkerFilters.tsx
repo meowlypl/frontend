@@ -27,19 +27,15 @@ export default function MarkerFilters({
   setSelectedType,
 }: Props) {
   return (
-    <div className="border-b border-orange-100 absolute top-34 left-84 z-100">
-
-      <h2 className="mb-4 text-3xl font-black text-slate-900">
-        Mapa Meowly
-      </h2>
-
+    <div className="absolute top-34 left-84 z-100">
+      
       <Input
         placeholder="Szukaj miejsca..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <div className="mt-6 flex flex-wrap gap-2">
+      <div className="mt-2 flex flex-wrap gap-2">
 
         {filters.map((filter) => (
           <Button
