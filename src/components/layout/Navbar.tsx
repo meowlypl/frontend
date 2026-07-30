@@ -1,6 +1,15 @@
-export default function Navbar() {
+import { useNavigate } from "react-router-dom";
+
+interface NavbarParams {
+  dark: boolean;
+  setDark: any;
+}
+
+export default function Navbar({ dark, setDark } : NavbarParams) {
   const user = JSON.parse(localStorage.getItem("meowlyUser") || "null");
   if(!user) return window.location.href = '/'
+
+  const navigate = useNavigate()
   const avatar = user.avatar;
   return (
     <header className="flex items-center justify-between bg-light-base dark:bg-base px-10 pt-8">
@@ -15,17 +24,22 @@ export default function Navbar() {
       </div>
 
       <div className="flex items-center gap-5">
-    
-        {/* <span className="text-2xl">🔔</span> */}
 
         <button
           className="material-symbols-outlined btn text-2xl"
-          onClick={ () => { localStorage.theme = (localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches) ? 'light' : 'dark'); location.reload() } }
+          onClick={ () => {
+            localStorage.theme = (dark ? 'light' : 'dark');
+            document.documentElement.classList.toggle(
+              'dark',
+              !dark
+            )
+            setDark(!dark)
+          } }
         >
-          {localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches) ? '☀️' : '🌙' /* 'light_mode' : 'dark_mode'*/}
+          {dark ? '☀️' : '🌙' /* 'light_mode' : 'dark_mode'*/}
         </button>
 
-        <a href="/profile" className="btn flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-light-border dark:bg-border font-black text-text">
+        <div onClick={() => navigate('/profile')} className="btn flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-light-border dark:bg-border font-black text-text">
             {avatar ? (
                  <img
                     src={avatar}
@@ -35,7 +49,7 @@ export default function Navbar() {
             ) : (
                 (user.name || "M").charAt(0)
             )}
-        </a>
+        </div>
       </div>
     </header>
   );

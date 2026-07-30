@@ -6,13 +6,48 @@ import ProfileAchievements from "../components/profile/ProfileAchievements";
 import ProfileActivity from "../components/profile/ProfileActivity";
 import ProfileSettings from "../components/profile/ProfileSettings";
 import ChangePassword from "../components/profile/ChangePassword";
+import { useEffect, useState } from "react";
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  xp: number;
+  level: number;
+  avatar: null;
+};
 
 export default function Profile() {
-  const user = JSON.parse(localStorage.getItem("meowlyUser") || "null");
+  const [user, setUser] = useState<User>()
 
-  const xp = 0;
+  const localUser = JSON.parse(localStorage.getItem("meowlyUser") || "null");
+  useEffect(() => {
+    async function fetchUser() {
+      fetch(`${import.meta.env.VITE_API_URL}/profile`, {
+        headers: {
+          authorization: localStorage.token
+        }
+      }).then(async r => {
+        const res = await r.json()
+        if(r.status == 401) {
+          localStorage.removeItem('meowlyUser');
+          alert('logout')
+          return window.location.href = "/login";
+        }
+        if(r.status == 200) {
+          localStorage.meowlyUser = JSON.stringify(res.user)
+          return setUser(res.user)
+        }
+        console.error(`Server responded with an unexpected code: ${r.status}\n${res}`)
+      })
+    }
+
+    fetchUser();
+  }, []);
+
+  const { xp, level } = user || localUser;
   const nextLevel = 100;
-  const level = 1;
 
   const activities = [
     {
@@ -37,17 +72,23 @@ export default function Profile() {
     },
   ];
 
+  const [dark, setDark] = useState<boolean>();
+  useEffect(() => {
+    setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
+  })
+
   return (
     <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
+      <div className="hidden lg:block">
+        <Sidebar />
+      </div>
 
-        <div className="hidden lg:block">
-          <Sidebar />
-        </div>
+      <div className="flex flex-col">
 
-        <div className="flex flex-col">
-
-          <Navbar />
-
+        <Navbar 
+          dark={ dark || false }
+          setDark={ setDark }
+        />
           <div className="flex-1 overflow-y-auto p-6 lg:p-10">
             <div className="rounded-[36px] bg-light-overlay dark:bg-overlay p-8 text-light-subtext dark:text-subtext shadow-xl card-hover">
 
@@ -60,7 +101,7 @@ export default function Profile() {
                 </p>
 
                 <h2 className="mt-2 text-4xl font-black lg:text-5xl">
-                  {user?.name || 'Użytkownik'}
+                  {(user || localUser)?.name || 'Użytkownik'}
                 </h2>
 
               </div>
@@ -105,7 +146,7 @@ export default function Profile() {
                 <div
                   className="h-full rounded-full bg-light-text dark:bg-text transition-all duration-500"
                   style={{
-                    width: `${(xp / nextLevel) * 100}%`,
+                    width: `${(Math.max(1,xp) / nextLevel) * 100}%`,
                   }}
                 />
 
@@ -120,7 +161,7 @@ export default function Profile() {
               <div className="space-y-8">
 
                 <ProfileAvatar
-                  user={user}
+                  user={(user || localUser)}
                 />
 
                 <ProfileAchievements
@@ -137,7 +178,7 @@ export default function Profile() {
                 })()}
 
                 <ProfileSettings
-                  user={user}
+                  user={(user || localUser)}
                 />
 
                 <ChangePassword />

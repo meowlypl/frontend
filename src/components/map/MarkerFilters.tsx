@@ -27,7 +27,7 @@ export default function MarkerFilters({
   setSelectedType,
 }: Props) {
   return (
-    <div className="border-b border-orange-100 bg-white p-6">
+    <div className="border-b border-orange-100 absolute top-34 left-84 z-100">
 
       <h2 className="mb-4 text-3xl font-black text-slate-900">
         Mapa Meowly

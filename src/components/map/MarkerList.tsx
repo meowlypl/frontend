@@ -10,7 +10,7 @@ export default function MarkerList({
 }: Props) {
   if (markers.length === 0) {
     return (
-      <div className="flex flex-1 items-center justify-center p-8">
+      <div className="flex flex-1 items-center justify-center p-8 absolute">
 
         <div className="text-center">
 
@@ -29,7 +29,7 @@ export default function MarkerList({
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-6">
+    <div className="flex-1 overflow-y-auto p-6 absolute">
 
       <div className="space-y-4">
 

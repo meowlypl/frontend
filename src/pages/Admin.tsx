@@ -136,6 +136,11 @@ export default function Admin() {
     );
   }
 
+  const [dark, setDark] = useState<boolean>();
+  useEffect(() => {
+    setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
+  })
+
   return (
     <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
 
@@ -145,7 +150,10 @@ export default function Admin() {
 
       <div className="flex flex-col">
 
-        <Navbar />
+        <Navbar 
+          dark={ dark || false }
+          setDark={ setDark }
+        />
 
         <div className="p-6 lg:p-10">
 

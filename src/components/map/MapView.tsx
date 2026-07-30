@@ -47,7 +47,7 @@ export default function MapView({
   onAddMarker,
 }: Props) {
   return (
-    <div className="relative h-full">
+    <div className="relative m-4 h-full z-0 rounded-[36px] overflow-hidden">
 
       <MapContainer
         center={[52.2297, 21.0122]}

@@ -83,11 +83,11 @@ export default function ProfileAvatar({
 
         </div>
 
-        <h2 className="text-3xl font-black text-slate-900">
+        <h2 className="text-3xl font-black text-light-text dark:text-text">
           {user.name}
         </h2>
 
-        <p className="mt-2 text-slate-500">
+        <p className="mt-2 text-light-subtext dark:text-subtext">
           {user.email}
         </p>
 

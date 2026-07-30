@@ -66,15 +66,10 @@ export default function ProfileSettings({
   }
 
   return (
-    <Card>
-
-      <h2 className="text-2xl font-black text-slate-900">
-        Ustawienia konta
-      </h2>
-
-      <p className="mt-2 text-slate-500">
-        Zmień podstawowe informacje o swoim koncie.
-      </p>
+    <Card
+      title="Ustawienia konta"
+      subtitle="Zmień podstawowe informacje o swoim koncie"
+    >
 
       <div className="mt-6 space-y-5">
 

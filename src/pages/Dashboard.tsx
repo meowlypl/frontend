@@ -1,15 +1,54 @@
 import Sidebar from "../components/layout/Sidebar";
 import Navbar from "../components/layout/Navbar";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  xp: number;
+  level: number;
+  avatar: null;
+};
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const [user, setUser] = useState<User>()
 
-  const user = JSON.parse(localStorage.getItem("meowlyUser") || "null");
+  const localUser = JSON.parse(localStorage.getItem("meowlyUser") || "null");
+  useEffect(() => {
+    async function fetchUser() {
+      fetch(`${import.meta.env.VITE_API_URL}/profile`, {
+        headers: {
+          authorization: localStorage.token
+        }
+      }).then(async r => {
+        const res = await r.json()
+        if(r.status == 401) {
+          localStorage.removeItem('meowlyUser');
+          alert('logout')
+          return window.location.href = "/login";
+        }
+        if(r.status == 200) {
+          localStorage.meowlyUser = JSON.stringify(res.user)
+          return setUser(res.user)
+        }
+        console.error(`Server responded with an unexpected code: ${r.status}\n${res}`)
+      })
+    }
 
-  const xp = 25;
+    fetchUser();
+  }, []);
+
+  const { xp, level } = (user || localUser);
   const nextLevel = 100;
-  const level = 1;
+
+  const [dark, setDark] = useState<boolean>();
+  useEffect(() => {
+    setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
+  })
 
   return (
     <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
@@ -19,7 +58,10 @@ export default function Dashboard() {
 
       <div className="flex flex-col">
 
-        <Navbar />
+        <Navbar 
+          dark={ dark || false }
+          setDark={ setDark }
+        />
 
         <div className="space-y-8 p-6 lg:p-10">
 
@@ -34,7 +76,7 @@ export default function Dashboard() {
                 </p>
 
                 <h2 className="mt-2 text-4xl font-black lg:text-5xl">
-                  {user?.name || 'Użytkownik'}
+                  {(user || localUser)?.name || 'Użytkownik'}
                 </h2>
 
               </div>
@@ -79,7 +121,7 @@ export default function Dashboard() {
                 <div
                   className="h-full rounded-full bg-light-text dark:bg-text transition-all duration-500"
                   style={{
-                    width: `${(xp / nextLevel) * 100}%`,
+                    width: `${(Math.max(1,xp) / nextLevel) * 100}%`,
                   }}
                 />
 

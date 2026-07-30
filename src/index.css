@@ -28,6 +28,10 @@
     cursor: pointer;
     transform: translateY(-2px);
   }
+  .btn:disabled:hover {
+    cursor: not-allowed;
+    transform: none;
+  }
 
   .btn:active {
     transform: scale(.95);
@@ -44,5 +48,14 @@
   .header {
     font-family: "Rubik Spray Paint", system-ui;
     font-weight: 200;
+  }
+
+  .leaflet-left .leaflet-control {
+    margin-top: 16px !important;
+    margin-right: 16px;
+  }
+  .leaflet-left {
+    right: 0;
+    left: unset !important;
   }
 }

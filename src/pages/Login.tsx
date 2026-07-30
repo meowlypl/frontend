@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import catImage from "../assets/register-cat.jpg";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -8,7 +8,6 @@ console.log("API_URL:", API_URL);
 export default function Login() {
   const user = JSON.parse(localStorage.getItem("meowlyUser") || "null");
   if(user) window.location.href = '/dashboard'
-  const navigate = useNavigate();
   
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -51,11 +50,9 @@ export default function Login() {
         localStorage.setItem(
           "meowlyUser",
           JSON.stringify(data.user)
-        );
-
-        navigate("/dashboard");
-
-        return;
+        )
+        localStorage.token = data.user.token
+        return window.location.href = "/dashboard";
       }
 
       const messages = {

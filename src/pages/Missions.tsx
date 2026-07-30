@@ -22,14 +22,23 @@ type Mission = {
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Construction() {
+  const [dark, setDark] = useState<boolean>();
+  useEffect(() => {
+    setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
+  })
+
   return (
     <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
       <div className="hidden lg:block">
-          <Sidebar />
+        <Sidebar />
       </div>
 
       <div className="flex flex-col">
-          <Navbar />
+
+        <Navbar 
+          dark={ dark || false }
+          setDark={ setDark }
+        />
 
           <div className="space-y-8 p-6 lg:p-10">
             <MissionTab />
@@ -115,68 +124,25 @@ export function MissionTab() {
         
         {loading ? (
           // Ładowanie
-          <main className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <article className="flex flex-col rounded-3xl border-2 border-orange-100 dark:border-orange-900 p-6">
+          <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {[0,1,2].map((i) => (
+            <div
+              className={`h-103 flex flex-col rounded-3xl border-2 border-light-overlay dark:border-border p-6 opacity-${Math.floor((3-i)/3*10)*10}`}
+            >
               <div className="mb-5 flex items-start justify-between gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 dark:bg-orange-900"></div>
-              </div>
-
-              <div className="mt-6 space-y-3 border-t border-gray-100 pt-5">
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <MapPin className="h-4 w-4 text-light-border" />
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <Clock className="h-4 w-4 text-light-border" />
-                </div>
-
-                <div className="flex items-center gap-2 text-sm font-semibold text-orange-600">
-                  <Trophy className="h-4 w-4" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-light-border dark:bg-orange-900">
+                  <MapPin className="h-6 w-6 text-light-base dark:text-orange-300" />
                 </div>
               </div>
-              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition active:scale-[0.98]"></div>
-            </article>
-            <article className="flex flex-col rounded-3xl border-2 border-orange-100 dark:border-orange-900 p-6">
-              <div className="mb-5 flex items-start justify-between gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 dark:bg-orange-900"></div>
-              </div>
 
-              <div className="mt-6 space-y-3 border-t border-gray-100 pt-5">
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <MapPin className="h-4 w-4 text-light-border" />
-                </div>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-300"></h2>
 
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <Clock className="h-4 w-4 text-light-border" />
-                </div>
+              <p className="mt-3 flex-1 text-sm leading-6 text-gray-600 dark:text-gray-400"></p>
 
-                <div className="flex items-center gap-2 text-sm font-semibold text-orange-600">
-                  <Trophy className="h-4 w-4" />
-                </div>
-              </div>
-              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition active:scale-[0.98]"></div>
-            </article>
-            <article className="flex flex-col rounded-3xl border-2 border-orange-100 dark:border-orange-900 p-6">
-              <div className="mb-5 flex items-start justify-between gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 dark:bg-orange-900"></div>
-              </div>
-
-              <div className="mt-6 space-y-3 border-t border-gray-100 pt-5">
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <MapPin className="h-4 w-4 text-light-border" />
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                  <Clock className="h-4 w-4 text-light-border" />
-                </div>
-
-                <div className="flex items-center gap-2 text-sm font-semibold text-orange-600">
-                  <Trophy className="h-4 w-4" />
-                </div>
-              </div>
-              <div className="mt-6 w-full rounded-2xl bg-light-border px-4 py-3 font-semibold text-white transition active:scale-[0.98]"></div>
-            </article>
-          </main>
+              <button className="mt-6 w-full h-[3em] rounded-2xl bg-light-border dark:bg-border px-4 py-3 font-semibold text-white"></button>
+            </div>
+            ))}
+          </section>
         ) : error ? (
           // Error
           <div className="rounded-[36px] bg-red-500 px-6 py-16 text-center shadow-sm text-white">

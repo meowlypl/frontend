@@ -4,11 +4,10 @@ import Sidebar from "../components/layout/Sidebar";
 import Navbar from "../components/layout/Navbar";
 
 import MarkerFilters from "../components/map/MarkerFilters";
-import MarkerList from "../components/map/MarkerList";
+// import MarkerList from "../components/map/MarkerList";
 import MapView from "../components/map/MapView";
 import MarkerForm from "../components/map/MarkerForm";
 
-import { markerService } from "../components/services/markerService";
 import type { Marker } from "../types/Marker";
 
 export default function MapPage() {
@@ -16,8 +15,7 @@ export default function MapPage() {
     localStorage.getItem("meowlyUser") || "null"
   );
 
-  const isAdmin =
-    user?.email === "maja.wronowska@interia.pl";
+  const isAdmin = user?.role == 'admin';
 
   const [markers, setMarkers] = useState<Marker[]>([]);
   const [search, setSearch] = useState("");
@@ -32,10 +30,13 @@ export default function MapPage() {
     } | null>(null);
 
   async function loadMarkers() {
-    const data = await markerService.getMarkers();
-    setMarkers(data);
+    fetch(`${import.meta.env.VITE_API_URL}/markers`, )
+      .then(async r => {
+        const res = await r.json()
+        if(r.status == 200) return setMarkers(res)
+        console.error(`Server responded with an unexpected code: ${r.status}\n${res}`)
+      })
   }
-
   useEffect(() => {
     loadMarkers();
   }, []);
@@ -57,31 +58,34 @@ export default function MapPage() {
     return matchesType && matchesSearch;
   });
 
+  const [dark, setDark] = useState<boolean>();
+  useEffect(() => {
+    setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
+  })
+
   return (
-    <main className="h-screen bg-[#fff8f0] p-4">
+    <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
+      <div className="hidden lg:block">
+        <Sidebar />
+      </div>
 
-      <div className="grid h-full overflow-hidden rounded-[36px] bg-white shadow-2xl lg:grid-cols-[290px_420px_1fr]">
+      <div className="flex flex-col">
 
-        <div className="hidden lg:block">
-          <Sidebar />
-        </div>
+        <Navbar 
+          dark={ dark || false }
+          setDark={ setDark }
+        />
 
-        <div className="flex flex-col border-r border-orange-100">
+        <MarkerFilters
+          search={search}
+          setSearch={setSearch}
+          selectedType={selectedType}
+          setSelectedType={setSelectedType}
+        />
 
-          <Navbar />
-
-          <MarkerFilters
-            search={search}
-            setSearch={setSearch}
-            selectedType={selectedType}
-            setSelectedType={setSelectedType}
-          />
-
-          <MarkerList
-            markers={visibleMarkers}
-          />
-
-        </div>
+        {/* <MarkerList
+          markers={visibleMarkers}
+        /> */}
 
         <MapView
           markers={visibleMarkers}
@@ -93,14 +97,14 @@ export default function MapPage() {
           refreshMarkers={loadMarkers}
         />
 
-      </div>
+        <MarkerForm
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+          position={selectedPosition}
+          onSaved={loadMarkers}
+        />
 
-      <MarkerForm
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        position={selectedPosition}
-        onSaved={loadMarkers}
-      />
+      </div>
 
     </main>
   );
