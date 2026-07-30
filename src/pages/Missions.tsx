@@ -221,7 +221,7 @@ export function MissionTab() {
                   type="button"
                   className="cursor-pointer mt-6 w-full rounded-2xl bg-light-border dark:bg-border px-4 py-3 font-semibold text-white transition active:scale-[0.98]"
                   onClick={() => {
-                    window.alert(`Wybrano misję: ${mission.title}`);
+                    // Wybrano misję
                   }}
                 >
                   Zobacz misję

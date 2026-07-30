@@ -65,7 +65,6 @@ export default function Login() {
       );
     } catch (error) {
       console.error(error);
-      alert(String(error));
       setMessage("Nie można połączyć się z serwerem.");
     }
 

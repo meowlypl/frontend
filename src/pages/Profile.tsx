@@ -32,7 +32,6 @@ export default function Profile() {
         const res = await r.json()
         if(r.status == 401) {
           localStorage.removeItem('meowlyUser');
-          alert('logout')
           return window.location.href = "/login";
         }
         if(r.status == 200) {
