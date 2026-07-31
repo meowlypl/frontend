@@ -8,32 +8,32 @@ const navigation = [
   {
     label: "Dashboard",
     path: "/foundation/dashboard",
-    icon: "X",
+
   },
   {
     label: "Zwierzęta",
     path: "/foundation/animals",
-    icon: "X",
+
   },
   {
     label: "Zgłoszenia", 
     path: "/foundation/reports",
-    icon: "X",
+
   },
   {
     label: "Wydarzenia",
     path: "/foundation/events",
-    icon: "X",
+
   },
   {
     label: "Wolontariusze",
     path: "/foundation/volunteers",
-    icon: "X",
+
   },
   {
     label: "Ustawienia",
     path: "/foundation/settings",
-    icon: "X",
+
   },
 ];
 
@@ -88,7 +88,6 @@ export default function FoundationSidebar({
                 fontFamily: "Material Symbols Outlined",
               }}
             >
-              {item.icon}
             </span>
 
             <span>{item.label}</span>

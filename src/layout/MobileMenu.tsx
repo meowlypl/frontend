@@ -10,32 +10,31 @@ const navigation = [
   {
     label: "Dashboard",
     path: "/foundation/dashboard",
-    icon: "home",
+   
   },
   {
     label: "Zwierzęta",
     path: "/foundation/animals",
-    icon: "pets",
   },
   {
     label: "Zgłoszenia",
     path: "/foundation/reports",
-    icon: "assignment",
+  
   },
   {
     label: "Wydarzenia",
     path: "/foundation/events",
-    icon: "calendar_month",
+    
   },
   {
     label: "Wolontariusze",
     path: "/foundation/volunteers",
-    icon: "groups",
+
   },
   {
     label: "Ustawienia",
     path: "/foundation/settings",
-    icon: "settings",
+  
   },
 ];
 
@@ -73,7 +72,7 @@ export default function FoundationMobileMenu({
       <aside className="absolute right-0 top-0 flex h-full w-[85%] max-w-sm flex-col bg-light-base p-6 shadow-2xl dark:bg-base">
         <div className="mb-8 flex items-center justify-between">
           <img
-            src={dark ? "/logo_dark.svg" : "/logo_light.svg"}
+            src={dark ? "/logo_darks.svg" : "/logo_light.svg"}
             alt="Meowly"
             className="h-12"
           />
@@ -112,7 +111,6 @@ export default function FoundationMobileMenu({
                   fontFamily: "Material Symbols Outlined",
                 }}
               >
-                {item.icon}
               </span>
 
               {item.label}
