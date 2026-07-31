@@ -6,9 +6,27 @@ import type { Animal } from "../../types/Animal";
 export default function FoundationDashboard() {
   const [animals, setAnimals] = useState<Animal[]>([]);
 
-  useEffect(() => {
-    setAnimals(animalService.getAll());
-  }, []);
+useEffect(() => {
+  let active = true;
+
+  async function loadAnimals() {
+    try {
+      const savedAnimals = await animalService.getAll();
+
+      if (active) {
+        setAnimals(savedAnimals);
+      }
+    } catch (error) {
+      console.error("Nie udało się pobrać zwierząt:", error);
+    }
+  }
+
+  loadAnimals();
+
+  return () => {
+    active = false;
+  };
+}, []);
 
   const availableForAdoption = animals.filter(
     (animal) => animal.status === "Do adopcji",
@@ -116,7 +134,7 @@ export default function FoundationDashboard() {
                   </h3>
 
                   <p className="mt-1 text-sm font-semibold text-light-subtext dark:text-subtext">
-                    {animal.species} · {animal.age}
+                    {animal.age}
                   </p>
                 </div>
 

@@ -7,7 +7,7 @@ import {
 
 import Home from "./pages/public/Home";
 import Verified from "./pages/public/Verified";
-import Construction from "./pages/public/Construction";
+
 
 import Register from "./pages/user/Register";
 import Login from "./pages/user/Login";
@@ -18,6 +18,7 @@ import Missions from "./pages/user/Missions";
 
 import Admin from "./pages/admin/Admin";
 
+import FoundationLayout from "./layout/FoundationLayout"
 import FoundationLogin from "./pages/foundation/Login";
 import FoundationRegister from "./pages/foundation/Register";
 import FoundationDashboard from "./pages/foundation/Dashboard";
@@ -55,45 +56,49 @@ export default function App() {
         />
 
         <Route
-          path="/foundation/dashboard"
-          element={<FoundationDashboard />}
-        />
+          path="/foundation"
+          element={<FoundationLayout />}
+        >
+          <Route
+            index
+            element={
+              <Navigate
+                to="dashboard"
+                replace
+              />
+            }
+          />
 
-        <Route
-          path="/foundation/animals"
-          element={<Animals />}
-        />
+          <Route
+            path="dashboard"
+            element={<FoundationDashboard />}
+          />
 
-        <Route
-          path="/foundation/reports"
-          element={<Reports />}
-        />
+          <Route
+            path="animals"
+            element={<Animals />}
+          />
 
-        <Route
-          path="/foundation/events"
-          element={<Events />}
-        />
+          <Route
+            path="reports"
+            element={<Reports />}
+          />
 
-        <Route
-          path="/foundation/volunteers"
-          element={<Volunteers />}
-        />
+          <Route
+            path="events"
+            element={<Events />}
+          />
 
-        <Route
-          path="/foundation/settings"
-          element={<Settings />}
-        />
+          <Route
+            path="volunteers"
+            element={<Volunteers />}
+          />
 
-        {/* Strony w budowie */}
-        <Route
-          path="/adoptions"
-          element={<Construction />}
-        />
-
-        <Route
-          path="/ranking"
-          element={<Construction />}
-        />
+          <Route
+            path="settings"
+            element={<Settings />}
+          />
+        </Route>
 
         {/* Administrator */}
         <Route path="/admin" element={<Admin />} />

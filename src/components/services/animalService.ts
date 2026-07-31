@@ -1,68 +1,248 @@
-import type { Animal } from "../../types/Animal";
+import type {
+  Animal,
+  AnimalFormData,
+} from "../../types/Animal";
 
-const STORAGE_KEY = "foundationAnimals";
+const DATABASE_NAME = "meowlyDatabase";
+const DATABASE_VERSION = 1;
+const STORE_NAME = "animals";
 
-function readAnimals(): Animal[] {
+function getFoundationId(): string {
+  const savedFoundation = localStorage.getItem("foundationUser");
+
+  if (!savedFoundation) {
+    throw new Error("Fundacja nie jest zalogowana.");
+  }
+
   try {
-    const storedAnimals = localStorage.getItem(STORAGE_KEY);
+    const foundation = JSON.parse(savedFoundation) as {
+      id?: string;
+    };
 
-    if (!storedAnimals) {
-      return [];
+    if (!foundation.id) {
+      throw new Error("Brak identyfikatora fundacji.");
     }
 
-    const parsedAnimals: unknown = JSON.parse(storedAnimals);
-
-    return Array.isArray(parsedAnimals) ? (parsedAnimals as Animal[]) : [];
+    return foundation.id;
   } catch {
-    return [];
+    throw new Error("Nie udało się odczytać danych fundacji.");
   }
 }
 
-function saveAnimals(animals: Animal[]): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(animals));
+function openDatabase(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(
+      DATABASE_NAME,
+      DATABASE_VERSION,
+    );
+
+    request.onerror = () => {
+      reject(
+        request.error ??
+          new Error("Nie udało się otworzyć bazy danych."),
+      );
+    };
+
+    request.onupgradeneeded = () => {
+      const database = request.result;
+
+      if (!database.objectStoreNames.contains(STORE_NAME)) {
+        const store = database.createObjectStore(STORE_NAME, {
+          keyPath: "id",
+        });
+
+        store.createIndex(
+          "foundationId",
+          "foundationId",
+          {
+            unique: false,
+          },
+        );
+      }
+    };
+
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
+  });
 }
 
 export const animalService = {
-  getAll(): Animal[] {
-    return readAnimals();
+  async getAll(): Promise<Animal[]> {
+    const database = await openDatabase();
+    const foundationId = getFoundationId();
+
+    return new Promise((resolve, reject) => {
+      const transaction = database.transaction(
+        STORE_NAME,
+        "readonly",
+      );
+
+      const store = transaction.objectStore(STORE_NAME);
+      const index = store.index("foundationId");
+      const request = index.getAll(foundationId);
+
+      request.onerror = () => {
+        reject(
+          request.error ??
+            new Error("Nie udało się pobrać zwierząt."),
+        );
+      };
+
+      request.onsuccess = () => {
+        const animals = request.result as Animal[];
+
+        animals.sort(
+          (firstAnimal, secondAnimal) =>
+            new Date(secondAnimal.createdAt).getTime() -
+            new Date(firstAnimal.createdAt).getTime(),
+        );
+
+        resolve(animals);
+      };
+
+      transaction.oncomplete = () => {
+        database.close();
+      };
+    });
   },
 
-  create(animal: Omit<Animal, "id" | "createdAt">): Animal {
-    const animals = readAnimals();
+  async create(data: AnimalFormData): Promise<Animal> {
+    const database = await openDatabase();
+    const date = new Date().toISOString();
 
-    const newAnimal: Animal = {
-      ...animal,
+    const animal: Animal = {
+      ...data,
       id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
+      foundationId: getFoundationId(),
+      createdAt: date,
+      updatedAt: date,
     };
 
-    saveAnimals([newAnimal, ...animals]);
+    return new Promise((resolve, reject) => {
+      const transaction = database.transaction(
+        STORE_NAME,
+        "readwrite",
+      );
 
-    return newAnimal;
+      const store = transaction.objectStore(STORE_NAME);
+      const request = store.add(animal);
+
+      request.onerror = () => {
+        reject(
+          request.error ??
+            new Error("Nie udało się dodać zwierzęcia."),
+        );
+      };
+
+      transaction.oncomplete = () => {
+        database.close();
+        resolve(animal);
+      };
+
+      transaction.onerror = () => {
+        database.close();
+        reject(
+          transaction.error ??
+            new Error("Nie udało się zapisać zwierzęcia."),
+        );
+      };
+    });
   },
 
-  update(id: string, changes: Partial<Animal>): Animal | null {
-    const animals = readAnimals();
-    const animalIndex = animals.findIndex((animal) => animal.id === id);
+  async update(
+    id: string,
+    data: AnimalFormData,
+  ): Promise<Animal | null> {
+    const database = await openDatabase();
 
-    if (animalIndex === -1) {
-      return null;
-    }
+    return new Promise((resolve, reject) => {
+      const transaction = database.transaction(
+        STORE_NAME,
+        "readwrite",
+      );
 
-    const updatedAnimal = {
-      ...animals[animalIndex],
-      ...changes,
-      id,
-    };
+      const store = transaction.objectStore(STORE_NAME);
+      const getRequest = store.get(id);
 
-    animals[animalIndex] = updatedAnimal;
-    saveAnimals(animals);
+      getRequest.onerror = () => {
+        reject(
+          getRequest.error ??
+            new Error("Nie udało się pobrać zwierzęcia."),
+        );
+      };
 
-    return updatedAnimal;
+      getRequest.onsuccess = () => {
+        const existingAnimal = getRequest.result as
+          | Animal
+          | undefined;
+
+        if (!existingAnimal) {
+          resolve(null);
+          return;
+        }
+
+        if (
+          existingAnimal.foundationId !== getFoundationId()
+        ) {
+          reject(
+            new Error(
+              "Nie możesz edytować zwierzęcia innej fundacji.",
+            ),
+          );
+          return;
+        }
+
+        const updatedAnimal: Animal = {
+          ...existingAnimal,
+          ...data,
+          id: existingAnimal.id,
+          foundationId: existingAnimal.foundationId,
+          createdAt: existingAnimal.createdAt,
+          updatedAt: new Date().toISOString(),
+        };
+
+        store.put(updatedAnimal);
+
+        transaction.oncomplete = () => {
+          database.close();
+          resolve(updatedAnimal);
+        };
+      };
+
+      transaction.onerror = () => {
+        database.close();
+        reject(
+          transaction.error ??
+            new Error("Nie udało się zaktualizować zwierzęcia."),
+        );
+      };
+    });
   },
 
-  delete(id: string): void {
-    const animals = readAnimals();
-    saveAnimals(animals.filter((animal) => animal.id !== id));
+  async delete(id: string): Promise<void> {
+    const database = await openDatabase();
+
+    return new Promise((resolve, reject) => {
+      const transaction = database.transaction(
+        STORE_NAME,
+        "readwrite",
+      );
+
+      const store = transaction.objectStore(STORE_NAME);
+      const request = store.delete(id);
+
+      request.onerror = () => {
+        reject(
+          request.error ??
+            new Error("Nie udało się usunąć zwierzęcia."),
+        );
+      };
+
+      transaction.oncomplete = () => {
+        database.close();
+        resolve();
+      };
+    });
   },
 };

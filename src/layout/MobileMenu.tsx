@@ -1,45 +1,133 @@
-import { Link } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-const normalItems = [
-  { name: "Dashboard", path: "/dashboard", icon: "dashboard" },
-  { name: "Mapa", path: "/map", icon: "mapa" },
-  { name: "Misje", path: "/missions", icon: "misje" },
-  { name: "Adopcje", path: "/adoptions", icon: "adopcje" },
-  { name: "Fundacje", path: "/foundations", icon: "fundacje" },
-  { name: "Ranking", path: "/ranking", icon: "ranking" },
-  { name: "Profil", path: "/profile", icon: "profil" },
+type FoundationMobileMenuProps = {
+  visible: boolean;
+  dark: boolean;
+  closeMenu: () => void;
+};
+
+const navigation = [
+  {
+    label: "Dashboard",
+    path: "/foundation/dashboard",
+    icon: "home",
+  },
+  {
+    label: "Zwierzęta",
+    path: "/foundation/animals",
+    icon: "pets",
+  },
+  {
+    label: "Zgłoszenia",
+    path: "/foundation/reports",
+    icon: "assignment",
+  },
+  {
+    label: "Wydarzenia",
+    path: "/foundation/events",
+    icon: "calendar_month",
+  },
+  {
+    label: "Wolontariusze",
+    path: "/foundation/volunteers",
+    icon: "groups",
+  },
+  {
+    label: "Ustawienia",
+    path: "/foundation/settings",
+    icon: "settings",
+  },
 ];
 
-interface MenuParams {
-  visible: boolean;
-}
+export default function FoundationMobileMenu({
+  visible,
+  dark,
+  closeMenu,
+}: FoundationMobileMenuProps) {
+  const navigate = useNavigate();
 
-export default function MobileMenu({ visible } : MenuParams) {
-  const user = JSON.parse(localStorage.getItem("meowlyUser") || "null");
-  
-  const items =
-    user.role == 'admin'
-      ? [...normalItems, { name: "Admin", path: "/admin", icon: "admin" }]
-      : normalItems;
-  const dark = localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
+  if (!visible) {
+    return null;
+  }
+
+  function handleLogout() {
+    localStorage.removeItem("foundationUser");
+    localStorage.removeItem("foundationToken");
+
+    closeMenu();
+
+    navigate("/foundation/login", {
+      replace: true,
+    });
+  }
 
   return (
-    <aside className={`z-1000 w-72 h-full border-l border-light-overlay dark:border-overlay bg-light-base p-8 dark:bg-base fixed right-0 top-20 ${visible ? 'sm:hidden' : 'hidden'}`}>
-      <nav className="space-y-2">
-        {items.map((item) => (
-          <Link
-            key={item.name}
-            to={item.path}
-            className={`btn flex gap-3 rounded-2xl px-5 py-3 transition hover:text-light-border leading-10 ${window.location.pathname == item.path ? 'bg-[#896a3650] dark:bg-[#c15a15] text-light-text dark:text-sidebar font-bold dark:hover:text-subtext' : 'text-light-subtext dark:text-subtext hover:bg-light-overlay dark:hover:bg-overlay dark:hover:text-border' }`}
+    <div className="fixed inset-0 z-[1000] lg:hidden">
+      <button
+        type="button"
+        className="absolute inset-0 bg-black/50"
+        onClick={closeMenu}
+        aria-label="Zamknij menu"
+      />
+
+      <aside className="absolute right-0 top-0 flex h-full w-[85%] max-w-sm flex-col bg-light-base p-6 shadow-2xl dark:bg-base">
+        <div className="mb-8 flex items-center justify-between">
+          <img
+            src={dark ? "/logo_dark.svg" : "/logo_light.svg"}
+            alt="Meowly"
+            className="h-12"
+          />
+
+          <button
+            type="button"
+            onClick={closeMenu}
+            className="text-3xl text-light-text dark:text-text"
+            aria-label="Zamknij menu"
+            style={{
+              fontFamily: "Material Symbols Outlined",
+            }}
           >
-            <img 
-              src={`/icon_${dark ? 'dark' : 'light'}/${item.icon}.svg`}
-              className="w-10"
-            />
-            {item.name}
-          </Link>
-        ))}
-      </nav>
-    </aside>
+            close
+          </button>
+        </div>
+
+        <nav className="flex flex-1 flex-col gap-2">
+          {navigation.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              onClick={closeMenu}
+              className={({ isActive }) =>
+                [
+                  "flex items-center gap-4 rounded-2xl px-5 py-4 font-bold",
+                  isActive
+                    ? "bg-light-border text-text dark:bg-border"
+                    : "text-light-subtext hover:bg-light-overlay dark:text-subtext dark:hover:bg-overlay",
+                ].join(" ")
+              }
+            >
+              <span
+                className="text-2xl"
+                style={{
+                  fontFamily: "Material Symbols Outlined",
+                }}
+              >
+                {item.icon}
+              </span>
+
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="mt-6 rounded-2xl border-2 border-light-border px-5 py-4 font-black text-light-border dark:border-border dark:text-border"
+        >
+          Wyloguj się
+        </button>
+      </aside>
+    </div>
   );
 }

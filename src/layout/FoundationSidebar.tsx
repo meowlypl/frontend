@@ -1,92 +1,115 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-interface FoundationSidebarProps {
+type FoundationSidebarProps = {
   dark: boolean;
-}
+};
 
-const items = [
+const navigation = [
   {
-    name: "Dashboard",
+    label: "Dashboard",
     path: "/foundation/dashboard",
-    icon: "dashboard",
+    icon: "home",
   },
   {
-    name: "Zwierzęta",
+    label: "Zwierzęta",
     path: "/foundation/animals",
-    icon: "adopcje",
+    icon: "pets",
   },
   {
-    name: "Zgłoszenia",
+    label: "Zgłoszenia",
     path: "/foundation/reports",
-    icon: "mapa",
+    icon: "assignment",
   },
   {
-    name: "Wydarzenia",
+    label: "Wydarzenia",
     path: "/foundation/events",
-    icon: "misje",
+    icon: "calendar_month",
   },
   {
-    name: "Wolontariusze",
+    label: "Wolontariusze",
     path: "/foundation/volunteers",
-    icon: "fundacje",
+    icon: "groups",
   },
   {
-    name: "Ustawienia",
+    label: "Ustawienia",
     path: "/foundation/settings",
-    icon: "profil",
+    icon: "settings",
   },
 ];
 
 export default function FoundationSidebar({
   dark,
 }: FoundationSidebarProps) {
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.removeItem("foundationUser");
+    localStorage.removeItem("foundationToken");
+
+    navigate("/foundation/login", {
+      replace: true,
+    });
+  }
+
   return (
-    <aside className="fixed h-screen w-72 overflow-y-auto border-r-2 border-light-overlay bg-light-base p-8 dark:border-overlay dark:bg-base">
-      <NavLink to="/foundation/dashboard">
+    <aside className="fixed left-0 top-0 flex h-screen w-72 flex-col border-r-2 border-light-overlay bg-light-base p-6 dark:border-overlay dark:bg-base">
+      <NavLink
+        to="/foundation/dashboard"
+        className="mb-10 block"
+      >
         <img
           src={dark ? "/logo_dark.svg" : "/logo_light.svg"}
           alt="Meowly"
-          className="mx-auto mb-4 w-3/4 cursor-pointer"
+          className="mx-auto w-44"
         />
+
+        <p className="mt-3 text-center text-sm font-bold text-light-subtext dark:text-subtext">
+          Panel fundacji
+        </p>
       </NavLink>
 
-      <p className="mb-8 text-center text-sm font-bold text-light-subtext dark:text-subtext">
-        Panel fundacji
-      </p>
-
-      <nav className="space-y-2">
-        {items.map((item) => (
+      <nav className="flex flex-1 flex-col gap-2">
+        {navigation.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
               [
-                "btn flex items-center gap-3 rounded-2xl px-5 py-3 font-semibold leading-10",
+                "flex items-center gap-4 rounded-2xl px-5 py-4 font-bold transition",
                 isActive
-                  ? "bg-[#896a3650] text-light-text dark:bg-border dark:text-sidebar"
-                  : "text-light-subtext hover:bg-light-overlay hover:text-light-border dark:text-subtext dark:hover:bg-overlay dark:hover:text-border",
+                  ? "bg-light-border text-text dark:bg-border"
+                  : "text-light-subtext hover:bg-light-overlay hover:text-light-text dark:text-subtext dark:hover:bg-overlay dark:hover:text-text",
               ].join(" ")
             }
           >
-            <img
-              src={`/icon_${dark ? "dark" : "light"}/${item.icon}.svg`}
-              alt=""
-              className="h-10 w-10"
-            />
+            <span
+              className="text-2xl"
+              style={{
+                fontFamily: "Material Symbols Outlined",
+              }}
+            >
+              {item.icon}
+            </span>
 
-            <span>{item.name}</span>
+            <span>{item.label}</span>
           </NavLink>
         ))}
       </nav>
 
       <button
         type="button"
-        className="btn mt-10 w-full rounded-2xl border-2 border-light-border px-5 py-3 font-bold text-light-border dark:border-border dark:text-border"
-        onClick={() => {
-          localStorage.removeItem("foundationUser");
-          window.location.href = "/foundation/login";
-        }}
+        onClick={handleLogout}
+        className="mt-6 flex items-center justify-center gap-3 rounded-2xl border-2 border-light-border px-5 py-4 font-black text-light-border transition hover:bg-light-border hover:text-text dark:border-border dark:text-border dark:hover:bg-border dark:hover:text-text"
       >
+        <span
+          className="text-2xl"
+          style={{
+            fontFamily: "Material Symbols Outlined",
+          }}
+        >
+          logout
+        </span>
+
         Wyloguj się
       </button>
     </aside>

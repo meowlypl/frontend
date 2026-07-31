@@ -18,6 +18,8 @@ export default function Navbar({ dark, setDark } : NavbarParams) {
     <header className="flex items-center bg-light-base dark:bg-base px-8 sm:px-10 pt-4 sm:pt-8">
       <MobileMenu
         visible={menu || false}
+        dark={dark}
+        closeMenu={() => setMenu(false)}
       />
       <div>
         <img
