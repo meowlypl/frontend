@@ -106,7 +106,7 @@ export default function FoundationSidebar({
             fontFamily: "Material Symbols Outlined",
           }}
         >
-          logout
+  
         </span>
 
         Wyloguj się
