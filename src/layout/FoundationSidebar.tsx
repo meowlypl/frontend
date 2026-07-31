@@ -16,7 +16,6 @@ const navigation = [
     icon: "pets",
   },
   {
-    label: "Zgłoszenia",
     path: "/foundation/reports",
     icon: "assignment",
   },
