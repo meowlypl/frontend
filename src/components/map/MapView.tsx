@@ -42,6 +42,11 @@ interface Props {
   ) => void;
 }
 
+const center: { [id: string] : number } = {
+  latitude: 52.2297,
+  longitude: 21.0122
+}
+
 export default function MapView({
   markers,
   isAdmin,
@@ -49,14 +54,14 @@ export default function MapView({
   onAddMarker,
 }: Props) {
   let [coords, setCoords] = useState<GeolocationCoordinates>()
-  let localCoords = {
-    latitude: 52.2297,
-    longitude: 21.0122
-  }
+  let [refresh, setRefresh] = useState<number>()
   useEffect(() => {
     if(navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setCoords(position.coords)
+        center.latitude = position.coords.latitude
+        center.longitude = position.coords.longitude
+        setRefresh((refresh||0)+1)
       })
     }
   }, [])
@@ -64,8 +69,8 @@ export default function MapView({
     <div className="relative m-4 h-full z-0 rounded-[36px] overflow-hidden">
 
       <MapContainer
-        key={coords?.latitude}
-        center={coords ? [coords.latitude, coords.longitude] : [localCoords.latitude, localCoords.longitude]}
+        key={refresh}
+        center={[center.latitude, center.longitude]}
         zoom={12}
         scrollWheelZoom
         className="h-full w-full"
@@ -87,6 +92,17 @@ export default function MapView({
             fillColor="blue" 
             radius={coords.accuracy}/>
         ) : null}
+        {coords ? (
+          <button
+            style={{ fontFamily: 'Material Symbols Outlined' }}
+            className="z-1000 btn rounded-[12px] fixed bottom-30.5 left-80.5 bg-light-overlay dark:bg-overlay text-light-subtext dark:text-subtext font-black text-xl w-10 h-10"
+            onClick={() => {
+              setRefresh((refresh||0)+1)
+            }}
+          >
+            location_on
+          </button>
+        ) : ''}
 
         {markers.map((marker) => (
           <Marker
@@ -110,6 +126,23 @@ export default function MapView({
           </Marker>
         ))}
       </MapContainer>
+      {/* if (e.detail !== 1) {
+    detail = e.detail;
+    return;
+  }
+  if (e.pointerType === "mouse" || e.sourceCapabilities && !e.sourceCapabilities.firesTouchEvents) return;
+  var path = getPropagationPath(e);
+  if (path.some(function(el) {
+      return el instanceof HTMLLabelElement && el.attributes.for;
+    }) && !path.some(function(el) {
+      return el instanceof HTMLInputElement || el instanceof HTMLSelectElement;
+    })) return;
+  var now = Date.now();
+  if (now - last <= delay) {
+    detail++;
+    if (detail === 2) handler(makeDblclick(e));
+  } else detail = 1;
+  last = now; */}
 
       {isAdmin && (
         <div className="fixed top-34 right-6 z-[1000] rounded-3xl bg-light-overlay dark:bg-overlay p-5 pt-4 shadow-2xl">

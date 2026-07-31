@@ -58,8 +58,8 @@ export default function MarkerForm({
     fetch(`https://nominatim.openstreetmap.org/reverse?lat=${position?.lat}&lon=${position?.lng}&format=json`)
       .then(_ => _.json())
       .then(add => {
-        setTitle(add.type == 'parking' ? `Parking ${add.name}`.replace(/ $/i, '') : add.name || '')
-        let parts = [add.address.road ? `${add.address.road}${add.address.house_number ? ` ${add.address.house_number}` : ''}`: '', (add.address.city||add.address.town||add.address.village||'') + (!add.address.road&&add.address.house_number?` ${add.address.house_number}`:''), add.address.country||'Poland' != 'Poland' ? add.address.country : ''].filter(a => a.length>0)
+        setTitle(add.type == 'parking' ? `Parking ${add.name.replace(/^Parking /i, '')}`.replace(/ $/i, '') : add.name || '')
+        let parts = [add.address.road ? `${add.address.road}${add.address.house_number ? ` ${add.address.house_number}` : ''}`: '', (add.address.city||add.address.town||add.address.village||'') + (!add.address.road&&add.address.house_number?` ${add.address.house_number}`:''), (add.address.country == 'Poland') ? '' : add.address.country].filter(a => a.length>0)
         setAddress(parts.join(', '))
       })
   }, [open]);

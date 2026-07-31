@@ -8,6 +8,16 @@ interface Props {
   refreshMarkers: () => void;
 }
 
+const types: { [id: string] : string } = {
+  foundation: 'Fundacja',
+  mission: 'Misja',
+  feeding: 'Punkt dokarmiania',
+  cat_house: 'Budka',
+  vet: 'Weterynarz',
+  adoption: 'Adopcja',
+  event: 'Wydarzenie'
+}
+
 export default function MarkerPopup({
   marker,
   isAdmin,
@@ -36,16 +46,16 @@ export default function MarkerPopup({
         />
       )}
 
-      <h2 className="text-xl font-black text-light-text dark:text-text mt-8">
+      <h2 className="text-xl font-black text-light-text dark:text-text mt-8 mb-0">
         {marker.title}
       </h2>
 
-      <p className="mt-2 text-sm leading-6 text-slate-500">
+      <p className="mt-0 text-sm leading-6 text-light-subtext">
         {marker.description}
       </p>
 
       {marker.address && (
-        <p className="mt-4 text-sm font-semibold text-orange-500">
+        <p className="mt-12 text-sm font-semibold text-orange-500">
           📍 {marker.address}
         </p>
       )}
@@ -57,14 +67,14 @@ export default function MarkerPopup({
         </span>
 
         <span className="rounded-full bg-light-overlay dark:bg-overlay px-3 py-1 text-sm font-semibold text-light-subtext dark:text-subtext">
-          {marker.type}
+          {types[marker.type] || marker.type}
         </span>
 
       </div>
 
       <Button
         fullWidth
-        className="mt-5"
+        className="mt-5 text-[.9rem]"
       >
         Rozpocznij misję
       </Button>
@@ -72,7 +82,7 @@ export default function MarkerPopup({
       <Button
         variant="secondary"
         fullWidth
-        className="mt-3"
+        className="mt-3 text-[.9rem]"
         onClick={() =>
           window.open(
             `https://www.google.com/maps/search/?api=1&query=${marker.lat},${marker.lng}`,
@@ -84,7 +94,7 @@ export default function MarkerPopup({
       </Button>
 
       {isAdmin && (
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex gap-2 text-[.9rem]">
 
           <Button
             variant="secondary"
