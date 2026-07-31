@@ -8,31 +8,32 @@ const navigation = [
   {
     label: "Dashboard",
     path: "/foundation/dashboard",
-    icon: "home",
+    icon: "X",
   },
   {
     label: "Zwierzęta",
     path: "/foundation/animals",
-    icon: "pets",
+    icon: "X",
   },
   {
+    label: "Zgłoszenia", 
     path: "/foundation/reports",
-    icon: "assignment",
+    icon: "X",
   },
   {
     label: "Wydarzenia",
     path: "/foundation/events",
-    icon: "calendar_month",
+    icon: "X",
   },
   {
     label: "Wolontariusze",
     path: "/foundation/volunteers",
-    icon: "groups",
+    icon: "X",
   },
   {
     label: "Ustawienia",
     path: "/foundation/settings",
-    icon: "settings",
+    icon: "X",
   },
 ];
 

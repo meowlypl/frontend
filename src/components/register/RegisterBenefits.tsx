@@ -2,19 +2,19 @@ import Card from "../ui/Card";
 
 const benefits = [
   {
-    icon: "📍",
+    icon: "X",
     title: "Pomagaj lokalnie",
     description:
       "Wykonuj misje i wspieraj fundacje oraz schroniska w swojej okolicy.",
   },
   {
-    icon: "⭐",
+    icon: "X",
     title: "Zdobywaj XP",
     description:
       "Awansuj na kolejne poziomy, zdobywaj odznaki i rywalizuj z innymi.",
   },
   {
-    icon: "❤️",
+    icon: "X",
     title: "Ratuj koty",
     description:
       "Każde zgłoszenie i każda misja pomagają realnie poprawić los zwierząt.",
