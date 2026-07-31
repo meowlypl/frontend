@@ -100,14 +100,6 @@ export default function FoundationSidebar({
         onClick={handleLogout}
         className="mt-6 flex items-center justify-center gap-3 rounded-2xl border-2 border-light-border px-5 py-4 font-black text-light-border transition hover:bg-light-border hover:text-text dark:border-border dark:text-border dark:hover:bg-border dark:hover:text-text"
       >
-        <span
-          className="text-2xl"
-          style={{
-            fontFamily: "Material Symbols Outlined",
-          }}
-        >
-  
-        </span>
 
         Wyloguj się
       </button>
