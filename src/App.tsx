@@ -1,59 +1,109 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-// import CookieConsent from "react-cookie-consent";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
-import Home from "./pages/Home";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Profile from "./pages/Profile";
-import MapPage from "./pages/Map";
-import Verified from "./pages/Verified";
-import Admin from "./pages/Admin";
-import Missions from "./pages/Missions";
-import Construction from "./pages/Construction";
-import FoundationPanel from "./pages/FoundationPanel";
+import Home from "./pages/public/Home";
+import Verified from "./pages/public/Verified";
+import Construction from "./pages/public/Construction";
+
+import Register from "./pages/user/Register";
+import Login from "./pages/user/Login";
+import Dashboard from "./pages/user/Dashboard";
+import Profile from "./pages/user/Profile";
+import MapPage from "./pages/user/Map";
+import Missions from "./pages/user/Missions";
+
+import Admin from "./pages/admin/Admin";
+
+import FoundationLogin from "./pages/foundation/Login";
+import FoundationRegister from "./pages/foundation/Register";
+import FoundationDashboard from "./pages/foundation/Dashboard";
+import Animals from "./pages/foundation/Animals";
+import Reports from "./pages/foundation/Reports";
+import Events from "./pages/foundation/Events";
+import Volunteers from "./pages/foundation/Volunteers";
+import Settings from "./pages/foundation/Settings";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Strony publiczne */}
         <Route path="/" element={<Home />} />
-
-        <Route path="/register" element={<Register />} />
-
-        <Route path="/login" element={<Login />} />
-
-        <Route path="/dashboard" element={<Dashboard />} />
-
-        <Route path="/profile" element={<Profile />} />
-
-        <Route path="/map" element={<MapPage />} />
-
         <Route path="/verified" element={<Verified />} />
 
-        <Route path="/admin" element={<Admin />} />
-
+        {/* Użytkownik */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/map" element={<MapPage />} />
         <Route path="/missions" element={<Missions />} />
 
-        <Route path="/foundations" element={<FoundationPanel />} />
-        
-        <Route path="/adoptions" element={<Construction />} />
-        <Route path="/ranking" element={<Construction />} />
+        {/* Fundacja */}
+        <Route
+          path="/foundation/login"
+          element={<FoundationLogin />}
+        />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route
+          path="/foundation/register"
+          element={<FoundationRegister />}
+        />
+
+        <Route
+          path="/foundation/dashboard"
+          element={<FoundationDashboard />}
+        />
+
+        <Route
+          path="/foundation/animals"
+          element={<Animals />}
+        />
+
+        <Route
+          path="/foundation/reports"
+          element={<Reports />}
+        />
+
+        <Route
+          path="/foundation/events"
+          element={<Events />}
+        />
+
+        <Route
+          path="/foundation/volunteers"
+          element={<Volunteers />}
+        />
+
+        <Route
+          path="/foundation/settings"
+          element={<Settings />}
+        />
+
+        {/* Strony w budowie */}
+        <Route
+          path="/adoptions"
+          element={<Construction />}
+        />
+
+        <Route
+          path="/ranking"
+          element={<Construction />}
+        />
+
+        {/* Administrator */}
+        <Route path="/admin" element={<Admin />} />
+
+        {/* Nieistniejąca strona */}
+        <Route
+          path="*"
+          element={<Navigate to="/" replace />}
+        />
       </Routes>
-      {/* <CookieConsent
-        location="bottom"
-        buttonText="OK"
-        style={localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches) ? 
-          { background: 'var(--color-overlay)', color: 'var(--color-text)', padding: '0 2vw', borderTop: 'solid 2px var(--color-base)' } :
-          { background: 'var(--color-light-overlay)', color: 'var(--color-light-text)', padding: '0 2vw', borderTop: 'solid 2px var(--color-light-base)' }}
-        buttonClasses="btn mt-8 w-full font-semibold"
-        buttonStyle={{ borderRadius: 'var(--radius-xl)', background: 'var(--color-orange-500)', color: 'var(--color-white)' }}
-        expires={150}
-      >
-        Ta strona używa plików cookie.
-      </CookieConsent> */}
     </BrowserRouter>
   );
 }

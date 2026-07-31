@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+<<<<<<< HEAD
 import MobileMenu from "./MobileMenu";
+=======
+import MobileMenu from "../../layout/MobileMenu";
+>>>>>>> 8f2df52 (Pierwszy commit)
 
 interface NavbarParams {
   dark: boolean;
