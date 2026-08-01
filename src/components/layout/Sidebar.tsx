@@ -20,7 +20,7 @@ export default function Sidebar() {
   const dark = localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
 
   return (
-    <aside className="w-72 h-full border-r border-2 border-light-overlay dark:border-overlay bg-light-base p-8 dark:bg-base fixed">
+    <aside className="w-72 h-full overflow-scroll border-r border-2 border-light-overlay dark:border-overlay bg-light-base p-8 dark:bg-base fixed">
       <Link
         to="/dashboard"
       >

@@ -3,30 +3,33 @@ import { Link } from "react-router-dom";
 import { animalService } from "../../components/services/animalService";
 import type { Animal } from "../../types/Animal";
 
+import Sidebar from "../../components/layout/Sidebar";
+import Navbar from "../../components/layout/Navbar";
+
 export default function FoundationDashboard() {
   const [animals, setAnimals] = useState<Animal[]>([]);
 
-useEffect(() => {
-  let active = true;
+  useEffect(() => {
+    let active = true;
 
-  async function loadAnimals() {
-    try {
-      const savedAnimals = await animalService.getAll();
+    async function loadAnimals() {
+      try {
+        const savedAnimals = await animalService.getAll();
 
-      if (active) {
-        setAnimals(savedAnimals);
+        if (active) {
+          setAnimals(savedAnimals);
+        }
+      } catch (error) {
+        console.error("Nie udało się pobrać zwierząt:", error);
       }
-    } catch (error) {
-      console.error("Nie udało się pobrać zwierząt:", error);
     }
-  }
 
-  loadAnimals();
+    loadAnimals();
 
-  return () => {
-    active = false;
-  };
-}, []);
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const availableForAdoption = animals.filter(
     (animal) => animal.status === "Do adopcji",
@@ -36,116 +39,137 @@ useEffect(() => {
     (animal) => animal.status === "W trakcie leczenia",
   ).length;
 
+  const [dark, setDark] = useState<boolean>();
+  useEffect(() => {
+    setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
+  }, [])
+
   return (
-    <section className="space-y-8">
-      <div>
-        <h1 className="header text-3xl font-black text-light-text dark:text-text">
-          Dashboard fundacji
-        </h1>
-
-        <p className="mt-2 font-semibold text-light-subtext dark:text-subtext">
-          Podsumowanie danych dodanych przez Twoją fundację.
-        </p>
+    <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
+      <div className="hidden lg:block">
+        <Sidebar />
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-3">
-        <Link
-          to="/foundation/animals"
-          className="card-hover rounded-3xl border-2 border-light-overlay bg-light-overlay/40 p-6 dark:border-overlay dark:bg-overlay/60"
-        >
-          <p className="font-bold text-light-subtext dark:text-subtext">
-            Wszystkie zwierzęta
-          </p>
+      <div className="flex flex-col">
 
-          <p className="mt-3 text-4xl font-black text-light-text dark:text-text">
-            {animals.length}
-          </p>
-        </Link>
+        <Navbar 
+          dark={ dark || false }
+          setDark={ setDark }
+        />
 
-        <Link
-          to="/foundation/animals"
-          className="card-hover rounded-3xl border-2 border-light-overlay bg-light-overlay/40 p-6 dark:border-overlay dark:bg-overlay/60"
-        >
-          <p className="font-bold text-light-subtext dark:text-subtext">
-            Do adopcji
-          </p>
+        <div className="space-y-8 p-6 lg:p-10">
+          <div>
+            <h1 className="header text-3xl font-black text-light-text dark:text-text">
+              Dashboard fundacji
+            </h1>
 
-          <p className="mt-3 text-4xl font-black text-light-text dark:text-text">
-            {availableForAdoption}
-          </p>
-        </Link>
+            <p className="mt-2 font-semibold text-light-subtext dark:text-subtext">
+              Podsumowanie danych dodanych przez Twoją fundację.
+            </p>
+          </div>
 
-        <Link
-          to="/foundation/animals"
-          className="card-hover rounded-3xl border-2 border-light-overlay bg-light-overlay/40 p-6 dark:border-overlay dark:bg-overlay/60"
-        >
-          <p className="font-bold text-light-subtext dark:text-subtext">
-            W trakcie leczenia
-          </p>
+          <div className="grid gap-5 sm:grid-cols-3">
+            <Link
+              to="/foundation/animals"
+              className="card-hover rounded-3xl border-2 border-light-overlay bg-light-overlay/40 p-6 dark:border-overlay dark:bg-overlay/60"
+            >
+              <p className="font-bold text-light-subtext dark:text-subtext">
+                Wszystkie zwierzęta
+              </p>
 
-          <p className="mt-3 text-4xl font-black text-light-text dark:text-text">
-            {animalsInTreatment}
-          </p>
-        </Link>
-      </div>
-
-      {animals.length === 0 ? (
-        <div className="rounded-3xl border-2 border-dashed border-light-border bg-light-overlay/30 p-10 text-center dark:border-border dark:bg-overlay/40">
-          <h2 className="text-2xl font-black text-light-text dark:text-text">
-            Brak danych do wyświetlenia
-          </h2>
-
-          <p className="mx-auto mt-3 max-w-xl font-semibold text-light-subtext dark:text-subtext">
-            Dashboard jest pusty, ponieważ fundacja nie dodała jeszcze
-            żadnych zwierząt.
-          </p>
-
-          <Link
-            to="/foundation/animals"
-            className="btn mt-7 inline-block rounded-2xl bg-light-border px-6 py-4 font-black text-text dark:bg-border"
-          >
-            Dodaj pierwsze zwierzę
-          </Link>
-        </div>
-      ) : (
-        <div className="rounded-3xl border-2 border-light-overlay bg-light-overlay/30 p-6 dark:border-overlay dark:bg-overlay/50">
-          <div className="flex items-center justify-between gap-4">
-            <h2 className="text-xl font-black text-light-text dark:text-text">
-              Ostatnio dodane
-            </h2>
+              <p className="mt-3 text-4xl font-black text-light-text dark:text-text">
+                {animals.length}
+              </p>
+            </Link>
 
             <Link
               to="/foundation/animals"
-              className="font-bold text-light-border dark:text-border"
+              className="card-hover rounded-3xl border-2 border-light-overlay bg-light-overlay/40 p-6 dark:border-overlay dark:bg-overlay/60"
             >
-              Zobacz wszystkie
+              <p className="font-bold text-light-subtext dark:text-subtext">
+                Do adopcji
+              </p>
+
+              <p className="mt-3 text-4xl font-black text-light-text dark:text-text">
+                {availableForAdoption}
+              </p>
+            </Link>
+
+            <Link
+              to="/foundation/animals"
+              className="card-hover rounded-3xl border-2 border-light-overlay bg-light-overlay/40 p-6 dark:border-overlay dark:bg-overlay/60"
+            >
+              <p className="font-bold text-light-subtext dark:text-subtext">
+                W trakcie leczenia
+              </p>
+
+              <p className="mt-3 text-4xl font-black text-light-text dark:text-text">
+                {animalsInTreatment}
+              </p>
             </Link>
           </div>
 
-          <div className="mt-5 space-y-3">
-            {animals.slice(0, 5).map((animal) => (
-              <article
-                key={animal.id}
-                className="flex flex-col justify-between gap-3 rounded-2xl border-2 border-light-overlay bg-light-base p-4 dark:border-overlay dark:bg-base sm:flex-row sm:items-center"
+          {animals.length === 0 ? (
+            <div className="rounded-3xl border-2 border-dashed border-light-border bg-light-overlay/30 p-10 text-center dark:border-border dark:bg-overlay/40">
+              <h2 className="text-2xl font-black text-light-text dark:text-text">
+                Brak danych do wyświetlenia
+              </h2>
+
+              <p className="mx-auto mt-3 max-w-xl font-semibold text-light-subtext dark:text-subtext">
+                Dashboard jest pusty, ponieważ fundacja nie dodała jeszcze
+                żadnych zwierząt.
+              </p>
+
+              <Link
+                to="/foundation/animals"
+                className="btn mt-7 inline-block rounded-2xl bg-light-border px-6 py-4 font-black text-text dark:bg-border"
               >
-                <div>
-                  <h3 className="font-black text-light-text dark:text-text">
-                    {animal.name}
-                  </h3>
+                Dodaj pierwsze zwierzę
+              </Link>
+            </div>
+          ) : (
+            <div className="rounded-3xl border-2 border-light-overlay bg-light-overlay/30 p-6 dark:border-overlay dark:bg-overlay/50">
+              <div className="flex items-center justify-between gap-4">
+                <h2 className="text-xl font-black text-light-text dark:text-text">
+                  Ostatnio dodane
+                </h2>
 
-                  <p className="mt-1 text-sm font-semibold text-light-subtext dark:text-subtext">
-                    {animal.age}
-                  </p>
-                </div>
+                <Link
+                  to="/foundation/animals"
+                  className="font-bold text-light-border dark:text-border"
+                >
+                  Zobacz wszystkie
+                </Link>
+              </div>
 
-                <span className="w-fit rounded-full bg-light-border/20 px-3 py-1 text-sm font-bold text-light-text dark:bg-border/30 dark:text-text">
-                  {animal.status}
-                </span>
-              </article>
-            ))}
-          </div>
+              <div className="mt-5 space-y-3">
+                {animals.slice(0, 5).map((animal) => (
+                  <article
+                    key={animal.id}
+                    className="flex flex-col justify-between gap-3 rounded-2xl border-2 border-light-overlay bg-light-base p-4 dark:border-overlay dark:bg-base sm:flex-row sm:items-center"
+                  >
+                    <div>
+                      <h3 className="font-black text-light-text dark:text-text">
+                        {animal.name}
+                      </h3>
+
+                      <p className="mt-1 text-sm font-semibold text-light-subtext dark:text-subtext">
+                        {animal.age}
+                      </p>
+                    </div>
+
+                    <span className="w-fit rounded-full bg-light-border/20 px-3 py-1 text-sm font-bold text-light-text dark:bg-border/30 dark:text-text">
+                      {animal.status}
+                    </span>
+                  </article>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </section>
+
+      </div>
+
+    </main>
   );
 }
