@@ -52,7 +52,7 @@ export default function Login() {
           JSON.stringify(data.user)
         )
         localStorage.token = data.user.token
-        return window.location.href = data.user.role == 'foundation' ? "/foundation" : "/dashboard";
+        return window.location.href = data.user.role == 'foundation' ? "/foundation/dashboard" : "/dashboard";
       }
 
       const messages = {

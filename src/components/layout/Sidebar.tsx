@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const normalItems = [
+const users = [
   { name: "Dashboard", path: "/dashboard", icon: "dashboard" },
   { name: "Mapa", path: "/map", icon: "mapa" },
   { name: "Misje", path: "/missions", icon: "misje" },
@@ -9,14 +9,24 @@ const normalItems = [
   { name: "Ranking", path: "/ranking", icon: "ranking" },
   { name: "Profil", path: "/profile", icon: "profil" },
 ];
+const fundations = [
+  { name: "Dashboard", path: "/dashboard", icon: "dashboard" },
+  { name: "Zwierzęta", path: "/animals", icon: "adopcje" },
+  { name: "Zgłoszenia", path: "/reports", icon: "fundacje" },
+  { name: "Wydarzenia", path: "/events", icon: "fundacje" },
+  { name: "Wolontariusze", path: "/volunteers", icon: "profil" },
+  { name: "Ustawienia", path: "/settings", icon: "admin" }
+];
 
 export default function Sidebar() {
   const user = JSON.parse(localStorage.getItem("meowlyUser") || "null");
   
-  const items =
-    user.role == 'admin'
-      ? [...normalItems, { name: "Admin", path: "/admin", icon: "admin" }]
-      : normalItems;
+  const items = user.role == 'foundation'
+    ? fundations
+    : user.role == 'admin'
+      ? [...users, { name: "Admin", path: "/admin", icon: "admin" }]
+      : users;
+
   const dark = localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
 
   return (
@@ -36,8 +46,8 @@ export default function Sidebar() {
         {items.map((item) => (
           <Link
             key={item.name}
-            to={item.path}
-            className={`btn flex gap-3 rounded-2xl px-5 py-3 transition hover:text-light-border leading-10 ${window.location.pathname == item.path ? 'bg-[#896a3650] dark:bg-[#c15a15] text-light-text dark:text-sidebar font-bold dark:hover:text-subtext' : 'text-light-subtext dark:text-subtext hover:bg-light-overlay dark:hover:bg-overlay dark:hover:text-border' }`}
+            to={`${user.role == 'foundation' ? '/foundation' : ''}${item.path}`}
+            className={`btn flex gap-3 rounded-2xl px-5 py-3 transition hover:text-light-border leading-10 ${window.location.pathname == `${user.role == 'foundation' ? '/foundation' : ''}${item.path}` ? 'bg-[#896a3650] dark:bg-[#c15a15] text-light-text dark:text-sidebar font-bold dark:hover:text-subtext' : 'text-light-subtext dark:text-subtext hover:bg-light-overlay dark:hover:bg-overlay dark:hover:text-border' }`}
           >
             <img 
               src={`/icon_${dark ? 'dark' : 'light'}/${item.icon}.svg`}

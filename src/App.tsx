@@ -13,6 +13,11 @@ import Missions from "./pages/user/Missions";
 import FoundationPanel from "./pages/user/FoundationPanel";
 
 import FoundationDashboard from "./pages/foundation/Dashboard";
+import Animals from "./pages/foundation/Animals";
+import Reports from "./pages/foundation/Reports";
+import Events from "./pages/foundation/Events";
+import Volunteers from "./pages/foundation/Volunteers";
+import Settings from "./pages/foundation/Settings";
 
 export default function App() {
   return (
@@ -31,7 +36,14 @@ export default function App() {
         <Route path="/foundations" element={<FoundationPanel />} />
         <Route path="/adoptions" element={<Construction />} />
         <Route path="/ranking" element={<Construction />} />
-        <Route path="/foundation" element={<FoundationDashboard />} />
+
+        <Route path="/foundation" element={<Navigate to="/foundation/dashboard" replace />} />
+        <Route path="/foundation/dashboard" element={<FoundationDashboard />} />
+        <Route path="/foundation/animals" element={<Animals />} />
+        <Route path="/foundation/reports" element={<Reports />} />
+        <Route path="/foundation/events" element={<Events />} />
+        <Route path="/foundation/volunteers" element={<Volunteers />} />
+        <Route path="/foundation/settings" element={<Settings />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
