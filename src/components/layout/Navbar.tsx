@@ -26,7 +26,7 @@ export default function Navbar({ dark, setDark } : NavbarParams) {
         />
 
         <h2 className="text-3xl font-black text-light-text dark:text-text header hidden sm:block">
-          Dzień dobry, {user.name || "Maja"} 👋
+          Dzień dobry, {user.name || "Maja"}
         </h2>
 
         <p className="mt-2 font-semibold text-light-subtext dark:text-subtext hidden sm:block">
@@ -47,7 +47,7 @@ export default function Navbar({ dark, setDark } : NavbarParams) {
             setDark(!dark)
           } }
         >
-          {dark ? '☀️' : '🌙' /* 'light_mode' : 'dark_mode'*/}
+          {dark ? '☀️' : '🌙' }
         </button>
         <button 
           style={{ fontFamily: 'Material Symbols Outlined' }}

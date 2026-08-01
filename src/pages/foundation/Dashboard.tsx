@@ -39,10 +39,7 @@ export default function FoundationDashboard() {
     (animal) => animal.status === "W trakcie leczenia",
   ).length;
 
-  const [dark, setDark] = useState<boolean>();
-  useEffect(() => {
-    setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
-  }, [])
+  const [dark, setDark] = useState<boolean>(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
 
   return (
     <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
@@ -58,15 +55,15 @@ export default function FoundationDashboard() {
         />
 
         <div className="space-y-8 p-6 lg:p-10">
-          <div>
-            <h1 className="header text-3xl font-black text-light-text dark:text-text">
+          <section className="mb-8">
+            <h1 className="text-5xl font-black text-light-text dark:text-text">
               Dashboard fundacji
             </h1>
 
             <p className="mt-2 font-semibold text-light-subtext dark:text-subtext">
               Podsumowanie danych dodanych przez Twoją fundację.
             </p>
-          </div>
+          </section>
 
           <div className="grid gap-5 sm:grid-cols-3">
             <Link

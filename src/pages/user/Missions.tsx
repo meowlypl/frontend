@@ -109,9 +109,6 @@ export function MissionTab() {
     <main className="min-h-screen">
       <div className="w-full">
         <section className="mb-8">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-light-border">
-            Pomagaj kotom w swojej okolicy
-          </p>
           <h1 className="text-5xl font-black text-light-text dark:text-text">
             Dostępne misje
           </h1>

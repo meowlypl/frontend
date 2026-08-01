@@ -8,6 +8,8 @@ import type {
   Animal,
   AnimalFormData,
 } from "../../types/Animal";
+import Sidebar from "../../components/layout/Sidebar";
+import Navbar from "../../components/layout/Navbar";
 
 export default function Animals() {
   const [animals, setAnimals] = useState<Animal[]>([]);
@@ -16,6 +18,8 @@ export default function Animals() {
     useState<Animal | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const [dark, setDark] = useState<boolean>(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
 
   useEffect(() => {
     let active = true;
@@ -156,7 +160,7 @@ export default function Animals() {
       </section>
     );
   }
-
+  
   return (
     <>
       {formOpen && (
@@ -167,26 +171,38 @@ export default function Animals() {
         />
       )}
 
-      <section className="space-y-8">
-        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
-          <div>
-            <h1 className="header text-3xl font-black text-light-text dark:text-text">
-              Zwierzęta
-            </h1>
+    <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
+      <div className="hidden lg:block">
+        <Sidebar />
+      </div>
 
-            <p className="mt-2 font-semibold text-light-subtext dark:text-subtext">
-              Zwierzęta dodane przez Twoją fundację.
-            </p>
+      <div className="flex flex-col">
+
+        <Navbar 
+          dark={ dark || false }
+          setDark={ setDark }
+        />
+
+        <div className="space-y-8 p-6 lg:p-10">
+          <div className="flex items-center">
+            <section>
+              <h1 className="text-5xl font-black text-light-text dark:text-text">
+                Zwierzęta
+              </h1>
+
+              <p className="mt-2 font-semibold text-light-subtext dark:text-subtext">
+                Zwierzęta dodane przez Twoją fundację
+              </p>
+            </section>
+
+            <button
+              type="button"
+              onClick={openCreateForm}
+              className="btn rounded-2xl bg-light-border px-6 py-4 font-black text-text dark:bg-border ml-auto h-[fit-content]"
+            >
+              + Dodaj zwierzę
+            </button>
           </div>
-
-          <button
-            type="button"
-            onClick={openCreateForm}
-            className="btn rounded-2xl bg-light-border px-6 py-4 font-black text-text dark:bg-border"
-          >
-            + Dodaj zwierzę
-          </button>
-        </div>
 
         {error && (
           <p className="rounded-2xl border-2 border-red-500/40 bg-red-500/10 px-4 py-3 font-bold text-red-600 dark:text-red-400">
@@ -339,7 +355,9 @@ export default function Animals() {
             })}
           </div>
         )}
-      </section>
+        </div>
+      </div>
+      </main>
     </>
   );
 }
