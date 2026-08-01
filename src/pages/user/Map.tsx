@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 
-import Sidebar from "../../components/layout/Sidebar";
-import Navbar from "../../components/layout/Navbar";
+import Sidebar from "../components/layout/Sidebar";
+import Navbar from "../components/layout/Navbar";
 
-import MarkerFilters from "../../components/map/MarkerFilters";
-import MapView from "../../components/map/MapView";
-import MarkerForm from "../../components/map/MarkerForm";
+import MarkerFilters from "../components/map/MarkerFilters";
+import MapView from "../components/map/MapView";
+import MarkerForm from "../components/map/MarkerForm";
 
-import type { Marker } from "../../types/Marker";
+import type { Marker } from "../types/Marker";
 
 export default function MapPage() {
   const user = JSON.parse(

@@ -1,13 +1,12 @@
+import Sidebar from "../components/layout/Sidebar";
+import Navbar from "../components/layout/Navbar";
+
+import ProfileAvatar from "../components/profile/ProfileAvatar";
+import ProfileAchievements from "../components/profile/ProfileAchievements";
+import ProfileActivity from "../components/profile/ProfileActivity";
+import ProfileSettings from "../components/profile/ProfileSettings";
+import ChangePassword from "../components/profile/ChangePassword";
 import { useEffect, useState } from "react";
-
-import Sidebar from "../../components/layout/Sidebar";
-import Navbar from "../../components/layout/Navbar";
-
-import ProfileAvatar from "../../components/profile/ProfileAvatar";
-import ProfileAchievements from "../../components/profile/ProfileAchievements";
-import ProfileActivity from "../../components/profile/ProfileActivity";
-import ProfileSettings from "../../components/profile/ProfileSettings";
-import ChangePassword from "../../components/profile/ChangePassword";
 
 type User = {
   id: number;
@@ -16,271 +15,181 @@ type User = {
   role: string;
   xp: number;
   level: number;
-  avatar?: string;
+  avatar: null;
 };
 
-function getStoredUser(): User | null {
-  try {
-    const storedUser = localStorage.getItem("meowlyUser");
-
-    if (!storedUser) {
-      return null;
-    }
-
-    return JSON.parse(storedUser) as User;
-  } catch {
-    localStorage.removeItem("meowlyUser");
-    return null;
-  }
-}
-
 export default function Profile() {
-  const [user, setUser] = useState<User | null>(() => getStoredUser());
-  const [loading, setLoading] = useState(true);
-  const [dark, setDark] = useState(false);
+  const [user, setUser] = useState<User>()
 
+  const localUser = JSON.parse(localStorage.getItem("meowlyUser") || "null");
   useEffect(() => {
-    const darkMode =
-      localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-    setDark(darkMode);
-    document.documentElement.classList.toggle("dark", darkMode);
-  }, []);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
     async function fetchUser() {
-      const token = localStorage.getItem("token");
-      const apiUrl = import.meta.env.VITE_API_URL;
-
-      if (!token) {
-        setLoading(false);
-
-        if (!getStoredUser()) {
-          window.location.href = "/login";
+      fetch(`${import.meta.env.VITE_API_URL}/profile`, {
+        headers: {
+          authorization: localStorage.token
         }
-
-        return;
-      }
-
-      if (!apiUrl) {
-        console.warn(
-          "Brak VITE_API_URL. Profil korzysta z danych zapisanych lokalnie.",
-        );
-
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const response = await fetch(`${apiUrl}/profile`, {
-          headers: {
-            authorization: token,
-          },
-          signal: controller.signal,
-        });
-
-        if (response.status === 401) {
-          localStorage.removeItem("meowlyUser");
-          localStorage.removeItem("token");
-          window.location.href = "/login";
-          return;
+      }).then(async r => {
+        const res = await r.json()
+        if(r.status == 401) {
+          localStorage.removeItem('meowlyUser');
+          return window.location.href = "/login";
         }
-
-        if (!response.ok) {
-          console.error(
-            `Serwer zwrócił nieoczekiwany kod: ${response.status}`,
-          );
-
-          setLoading(false);
-          return;
+        if(r.status == 200) {
+          localStorage.meowlyUser = JSON.stringify(res.user)
+          return setUser(res.user)
         }
-
-        const data = await response.json();
-        const fetchedUser = data.user as User;
-
-        localStorage.setItem(
-          "meowlyUser",
-          JSON.stringify(fetchedUser),
-        );
-
-        setUser(fetchedUser);
-      } catch (error) {
-        if (error instanceof Error && error.name === "AbortError") {
-          return;
-        }
-
-        console.error("Nie udało się pobrać profilu:", error);
-      } finally {
-        setLoading(false);
-      }
+        console.error(`Server responded with an unexpected code: ${r.status}\n${res}`)
+      })
     }
 
     fetchUser();
-
-    return () => {
-      controller.abort();
-    };
   }, []);
 
-  function handleProfileUpdated() {
-    const updatedUser = getStoredUser();
-
-    if (updatedUser) {
-      setUser(updatedUser);
-    }
-  }
-
-  function handleAvatarChanged(avatar: string) {
-    setUser((currentUser) => {
-      if (!currentUser) {
-        return currentUser;
-      }
-
-      const updatedUser = {
-        ...currentUser,
-        avatar,
-      };
-
-      localStorage.setItem(
-        "meowlyUser",
-        JSON.stringify(updatedUser),
-      );
-
-      return updatedUser;
-    });
-  }
-
-  if (loading && !user) {
-    return (
-      <main className="flex min-h-screen items-center justify-center bg-light-base text-light-text dark:bg-base dark:text-text">
-        <p className="text-lg font-bold">Ładowanie profilu...</p>
-      </main>
-    );
-  }
-
-  if (!user) {
-    return (
-      <main className="flex min-h-screen flex-col items-center justify-center gap-5 bg-light-base p-6 text-center text-light-text dark:bg-base dark:text-text">
-        <h1 className="text-3xl font-black">
-          Nie udało się wczytać profilu
-        </h1>
-
-        <p className="text-light-subtext dark:text-subtext">
-          Zaloguj się ponownie, aby otworzyć swój profil.
-        </p>
-
-        <button
-          type="button"
-          onClick={() => {
-            window.location.href = "/login";
-          }}
-          className="btn rounded-2xl bg-light-border px-6 py-4 font-black text-text dark:bg-border"
-        >
-          Przejdź do logowania
-        </button>
-      </main>
-    );
-  }
-
-  const xp = user.xp ?? 0;
-  const level = user.level ?? 1;
+  const { xp, level } = user || localUser;
   const nextLevel = 100;
 
-  const progress = Math.min(
-    100,
-    Math.max(0, (xp / nextLevel) * 100),
-  );
+  const activities = [
+    {
+      id: 1,
+      title: "Ukończono misję",
+      description: "Sprawdzenie budki dla kotów",
+      date: "Dzisiaj • 18:30",
+      xp: 50,
+    },
+    {
+      id: 2,
+      title: "Dodano zgłoszenie",
+      description: "Kot potrzebujący pomocy",
+      date: "Wczoraj • 11:20",
+      xp: 20,
+    },
+    {
+      id: 3,
+      title: "Zdobyto odznakę",
+      description: "Pierwsza misja",
+      date: "3 dni temu",
+    },
+  ];
+
+  const [dark, setDark] = useState<boolean>();
+  useEffect(() => {
+    setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
+  }, [])
 
   return (
-    <main className="grid min-h-screen bg-light-base shadow-2xl dark:bg-base lg:grid-cols-[290px_1fr]">
+    <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
       <div className="hidden lg:block">
         <Sidebar />
       </div>
 
-      <div className="flex min-w-0 flex-col">
-        <Navbar dark={dark} setDark={setDark} />
+      <div className="flex flex-col">
 
-        <div className="flex-1 overflow-y-auto p-6 lg:p-10">
-          <section className="rounded-[36px] bg-light-overlay p-8 text-light-subtext shadow-xl dark:bg-overlay dark:text-subtext">
-            <div className="flex flex-wrap items-start gap-6">
+        <Navbar 
+          dark={ dark || false }
+          setDark={ setDark }
+        />
+          <div className="flex-1 overflow-y-auto p-6 lg:p-10">
+            <div className="rounded-[36px] bg-light-overlay dark:bg-overlay p-8 text-light-subtext dark:text-subtext shadow-xl card-hover">
+
+            <div className="flex flex-wrap gap-6">
+              
               <div>
-                <p className="text-sm font-bold opacity-80">
+
+                <p className="text-sm opacity-80">
                   PROFIL
                 </p>
 
-                <h1 className="mt-2 text-4xl font-black text-light-text dark:text-text lg:text-5xl">
-                  {user.name || "Użytkownik"}
-                </h1>
-              </div>
+                <h2 className="mt-2 text-4xl font-black lg:text-5xl">
+                  {(user || localUser)?.name || 'Użytkownik'}
+                </h2>
 
+              </div>
               <div className="ml-auto">
-                <p className="text-sm font-bold opacity-80">
+
+                <p className="text-sm opacity-80">
                   Poziom
                 </p>
 
-                <p className="mt-2 text-5xl font-semibold text-light-text dark:text-text">
+                <h2 className="mt-2 text-5xl font-semibold">
                   {level}
-                </p>
+                </h2>
+
               </div>
 
               <div>
-                <p className="text-sm font-bold opacity-80">
+
+                <p className="text-sm opacity-80">
                   XP
                 </p>
 
-                <p className="mt-2 text-5xl font-semibold text-light-text dark:text-text">
+                <h2 className="mt-2 text-5xl font-semibold">
                   {xp}
-                </p>
+                </h2>
+
               </div>
+
             </div>
 
             <div className="mt-8">
+
               <div className="mb-2 flex justify-between text-sm font-bold">
+
                 <span>{xp} XP</span>
+
                 <span>{nextLevel} XP</span>
+
               </div>
 
               <div className="h-4 overflow-hidden rounded-full bg-white dark:bg-light-text">
+
                 <div
-                  className="h-full rounded-full bg-light-text transition-all duration-500 dark:bg-text"
+                  className="h-full rounded-full bg-light-text dark:bg-text transition-all duration-500"
                   style={{
-                    width: `${progress}%`,
+                    width: `${(Math.max(1,xp) / nextLevel) * 100}%`,
                   }}
                 />
+
               </div>
-            </div>
-          </section>
 
-          <div className="mt-8 grid gap-8 xl:grid-cols-[360px_1fr]">
-            <div className="space-y-8">
-              <ProfileAvatar
-                user={user}
-                onAvatarChanged={handleAvatarChanged}
-              />
-
-              <ProfileAchievements
-                completedMissions={0}
-                reports={0}
-              />
             </div>
 
-            <div className="space-y-8">
-              <ProfileActivity />
-
-              <ProfileSettings
-                user={user}
-                onUpdated={handleProfileUpdated}
-              />
-
-              <ChangePassword />
-            </div>
           </div>
+
+            <div className="mt-8 grid gap-8 xl:grid-cols-[360px_1fr]">
+
+              <div className="space-y-8">
+
+                <ProfileAvatar
+                  user={(user || localUser)}
+                />
+
+                <ProfileAchievements
+                  completedMissions={12}
+                  reports={5}
+                />
+              </div>
+
+              <div className="space-y-8">
+
+                {(() => {
+                  const Activity: any = ProfileActivity;
+                  return <Activity activities={activities} />;
+                })()}
+
+                <ProfileSettings
+                  user={(user || localUser)}
+                />
+
+                <ChangePassword />
+
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
-      </div>
+
     </main>
   );
 }

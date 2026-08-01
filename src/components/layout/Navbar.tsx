@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import MobileMenu from "../../layout/MobileMenu";
+import MobileMenu from "./MobileMenu";
 
 interface NavbarParams {
   dark: boolean;
@@ -18,8 +18,6 @@ export default function Navbar({ dark, setDark } : NavbarParams) {
     <header className="flex items-center bg-light-base dark:bg-base px-8 sm:px-10 pt-4 sm:pt-8">
       <MobileMenu
         visible={menu || false}
-        dark={dark}
-        closeMenu={() => setMenu(false)}
       />
       <div>
         <img
@@ -28,7 +26,7 @@ export default function Navbar({ dark, setDark } : NavbarParams) {
         />
 
         <h2 className="text-3xl font-black text-light-text dark:text-text header hidden sm:block">
-          Dzień dobry, {user.name || "Maja"} 
+          Dzień dobry, {user.name || "Maja"} 👋
         </h2>
 
         <p className="mt-2 font-semibold text-light-subtext dark:text-subtext hidden sm:block">
