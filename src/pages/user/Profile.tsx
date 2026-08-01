@@ -1,11 +1,11 @@
 import Sidebar from "../../components/layout/Sidebar";
 import Navbar from "../../components/layout/Navbar";
 
-import ProfileAvatar from "../components/profile/ProfileAvatar";
-import ProfileAchievements from "../components/profile/ProfileAchievements";
-import ProfileActivity from "../components/profile/ProfileActivity";
-import ProfileSettings from "../components/profile/ProfileSettings";
-import ChangePassword from "../components/profile/ChangePassword";
+import ProfileAvatar from "../../components/profile/ProfileAvatar";
+import ProfileAchievements from "../../components/profile/ProfileAchievements";
+import ProfileActivity from "../../components/profile/ProfileActivity";
+import ProfileSettings from "../../components/profile/ProfileSettings";
+import ChangePassword from "../../components/profile/ChangePassword";
 import { useEffect, useState } from "react";
 
 type User = {
