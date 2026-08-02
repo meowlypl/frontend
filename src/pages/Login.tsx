@@ -1,16 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import catImage from "../assets/register-cat.jpg";
+import { ArrowLeft, Moon, Sun } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 console.log("API_URL:", API_URL);
 
+function getInitialTheme() {
+  return (
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  );
+}
+
 export default function Login() {
   const user = JSON.parse(localStorage.getItem("meowlyUser") || "null");
   if(user) window.location.href = '/dashboard'
-  
+
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [dark, setDark] = useState(getInitialTheme);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+    localStorage.theme = dark ? "dark" : "light";
+  }, [dark]);
 
   async function handleLogin(
     event: React.FormEvent<HTMLFormElement>
@@ -72,223 +86,150 @@ export default function Login() {
   }
 
   return (
-    <main className="min-h-screen bg-[#fff8f0] p-4 lg:p-6">
+    <div className="min-h-screen bg-light-base text-light-text selection:bg-light-border selection:text-white dark:bg-base dark:text-text dark:selection:bg-border">
+      <style>{`
+        @keyframes login-content-fade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
 
-      <section className="grid min-h-[calc(100vh-40px)] overflow-hidden rounded-[36px] bg-white shadow-2xl lg:grid-cols-[1.05fr_0.95fr]">
+        .login-reveal {
+          animation: login-content-fade 320ms ease-out both;
+        }
 
-        <div
-          className="relative hidden lg:flex flex-col justify-between overflow-hidden p-12"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,248,240,.15),rgba(255,248,240,.3)), url(${catImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
+        @media (prefers-reduced-motion: reduce) {
+          .login-reveal {
+            animation: none;
+          }
+        }
+      `}</style>
+      <header>
+        <nav
+          aria-label="Nawigacja logowania"
+          className="mx-auto flex h-14 max-w-7xl items-center px-4 sm:px-7 lg:px-10"
         >
+          <Link
+            to="/"
+            aria-label="Wróć na stronę główną"
+            className="btn inline-flex h-9 items-center gap-2 rounded-lg px-2 text-sm font-bold text-light-subtext hover:bg-light-overlay hover:text-light-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-light-border dark:text-subtext dark:hover:bg-overlay dark:hover:text-text dark:focus-visible:outline-border"
+          >
+            <ArrowLeft size={17} aria-hidden="true" />
+            <span className="hidden sm:inline">Strona główna</span>
+          </Link>
 
-          <div>
-
-            <div className="inline-flex h-16 w-16 items-center justify-center rounded-3xl bg-orange-500 shadow-xl">
-
-              <span className="text-3xl text-white">
-                🐈
-              </span>
-
-            </div>
-
+          <div className="ml-auto">
+            <button
+              type="button"
+              onClick={() => setDark((value) => !value)}
+              aria-label={dark ? "Włącz jasny motyw" : "Włącz ciemny motyw"}
+              aria-pressed={dark}
+              className="btn grid size-9 place-items-center rounded-lg text-light-subtext hover:bg-light-overlay hover:text-light-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-light-border dark:text-subtext dark:hover:bg-overlay dark:hover:text-text dark:focus-visible:outline-border"
+            >
+              {dark ? <Sun size={17} aria-hidden="true" /> : <Moon size={17} aria-hidden="true" />}
+            </button>
           </div>
+        </nav>
+      </header>
 
-          <div>
-
-            <h1 className="max-w-lg text-6xl font-black leading-tight text-white">
-
-              Witaj ponownie w
-
-              <span className="text-orange-500 ml-[.25em]">
-                Meowly
-              </span>
-
+      <main className="flex min-h-[calc(100svh-3.5rem)] items-center justify-center px-4 py-8 sm:px-7 sm:py-12">
+        <section
+          aria-labelledby="login-heading"
+          className="login-reveal w-full max-w-[400px] rounded-[26px] border border-light-border/35 bg-light-base px-5 py-7 sm:px-8 sm:py-8 dark:border-border/40 dark:bg-base"
+        >
+            <Link
+              to="/"
+              aria-label="Meowly — strona główna"
+              className="inline-flex rounded-md focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-border dark:focus-visible:outline-border"
+            >
+              <img
+                src="/logo-marketing.png"
+                alt="Meowly"
+                className="h-7 w-auto object-contain"
+              />
+            </Link>
+            <h1
+              id="login-heading"
+              className="mt-7 text-[2rem] font-black leading-none tracking-[-0.04em]"
+            >
+              Zaloguj się
             </h1>
 
-            <p className="mt-6 max-w-lg text-xl leading-9 text-white/90">
-
-              Pomagaj kotom,
-              wykonuj misje,
-              zdobywaj poziomy
-              i zmieniaj świat
-              na lepszy.
-
-            </p>
-
-          </div>
-
-          <div className="rounded-[28px] bg-white/85 p-6 backdrop-blur">
-
-            <h2 className="text-2xl font-black">
-              🐾 Razem pomagamy kotom
-            </h2>
-
-            <p className="mt-3 leading-7 text-slate-600">
-
-              Każde zgłoszenie,
-              każda misja
-              i każda adopcja
-              naprawdę ma znaczenie.
-
-            </p>
-
-          </div>
-
-        </div>
-
-        <div className="flex items-center justify-center p-6 lg:p-10">
-
-          <div className="w-full max-w-md">
-
-            <div className="mb-10 text-center lg:hidden">
-
-              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-[28px] bg-orange-500 shadow-xl shadow-orange-200">
-
-                <span className="text-4xl text-white">
-                  🐈
-                </span>
-
-              </div>
-
-              <h1 className="mt-6 text-5xl font-black">
-                Meowly
-              </h1>
-
+            <form onSubmit={handleLogin} className="mt-7 space-y-4">
+            <div>
+              <label htmlFor="login-email" className="text-sm font-bold">
+                Email
+              </label>
+              <input
+                id="login-email"
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                placeholder="twoj@email.com"
+                className="mt-1.5 h-[52px] w-full rounded-xl border border-light-border/45 bg-light-overlay/25 px-4 text-light-text outline-none transition-colors placeholder:text-light-subtext/65 focus:border-[#c15a15] focus:ring-2 focus:ring-[#c15a15]/20 dark:border-border/45 dark:bg-overlay/25 dark:text-text dark:placeholder:text-subtext/65"
+              />
             </div>
 
-            <h2 className="text-center text-5xl font-black text-slate-900">
+            <div>
+              <label htmlFor="login-password" className="text-sm font-bold">
+                Hasło
+              </label>
+              <input
+                id="login-password"
+                name="password"
+                type="password"
+                required
+                autoComplete="current-password"
+                placeholder="••••••••"
+                className="mt-1.5 h-[52px] w-full rounded-xl border border-light-border/45 bg-light-overlay/25 px-4 text-light-text outline-none transition-colors placeholder:text-light-subtext/65 focus:border-[#c15a15] focus:ring-2 focus:ring-[#c15a15]/20 dark:border-border/45 dark:bg-overlay/25 dark:text-text dark:placeholder:text-subtext/65"
+              />
+            </div>
 
-              Zaloguj się
-
-            </h2>
-
-            <p className="mt-3 text-center text-lg font-semibold text-slate-500">
-
-              Wróć do swoich misji.
-
-            </p>
-
-            <form
-              onSubmit={handleLogin}
-              className="mt-10 space-y-6"
-            >
-                          <div>
-
-                <label className="font-black text-slate-800">
-                  Email
-                </label>
-
+            <div className="flex items-center justify-between gap-3 py-0.5 text-[13px] max-[350px]:flex-col max-[350px]:items-start">
+              <label className="flex min-w-0 items-center gap-2.5 text-light-subtext dark:text-subtext">
                 <input
-                  name="email"
-                  type="email"
-                  required
-                  placeholder="twoj@email.com"
-                  className="mt-2 h-14 w-full rounded-2xl border-2 border-orange-200 px-5 outline-none transition-all duration-200 focus:border-orange-500 focus:shadow-lg focus:shadow-orange-100"
+                  type="checkbox"
+                  className="size-4 shrink-0 rounded border-light-border accent-[#c15a15] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c15a15] dark:border-border"
                 />
-
-              </div>
-
-              <div>
-
-                <label className="font-black text-slate-800">
-                  Hasło
-                </label>
-
-                <input
-                  name="password"
-                  type="password"
-                  required
-                  placeholder="••••••••"
-                  className="mt-2 h-14 w-full rounded-2xl border-2 border-orange-200 px-5 outline-none transition-all duration-200 focus:border-orange-500 focus:shadow-lg focus:shadow-orange-100"
-                />
-
-              </div>
-
-              <div className="flex items-center justify-between">
-
-                <label className="flex items-center gap-3 text-sm font-semibold text-slate-600">
-
-                  <input
-                    type="checkbox"
-                    className="h-5 w-5 rounded accent-orange-500"
-                  />
-
-                  Zapamiętaj mnie
-
-                </label>
-
-                <button
-                  type="button"
-                  className="font-bold text-orange-500 transition hover:text-orange-600"
-                >
-                  Nie pamiętasz hasła?
-                </button>
-
-              </div>
-
+                <span>Zapamiętaj mnie</span>
+              </label>
               <button
-                type="submit"
-                disabled={loading}
-                className="btn h-14 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 font-black text-white shadow-lg shadow-orange-200 disabled:cursor-not-allowed disabled:opacity-70"
+                type="button"
+                className="shrink-0 rounded-md font-bold text-light-subtext hover:text-light-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-light-border dark:text-subtext dark:hover:text-text dark:focus-visible:outline-border"
               >
-                {loading ? "Logowanie..." : "Zaloguj się"}
+                Nie pamiętasz hasła?
               </button>
+            </div>
 
-              {message && (
-                <div className="rounded-2xl bg-red-50 p-4 text-center font-bold text-red-600">
-                  {message}
-                </div>
-              )}
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn inline-flex h-[52px] w-full items-center justify-center rounded-xl bg-[#c15a15] px-6 font-black text-white hover:bg-[#a94d11] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-border disabled:cursor-not-allowed disabled:opacity-60 dark:bg-[#d56b24] dark:hover:bg-[#e27a31] dark:focus-visible:outline-border"
+            >
+              {loading ? "Logowanie..." : "Zaloguj się"}
+            </button>
 
+            {message && (
+              <div
+                role="alert"
+                className="rounded-xl border border-red-300/70 bg-red-50 px-4 py-3 text-sm font-bold text-red-700 dark:border-red-900/80 dark:bg-red-950/30 dark:text-red-300"
+              >
+                {message}
+              </div>
+            )}
             </form>
 
-            <div className="mt-8 text-center">
-
-              <p className="font-semibold text-slate-500">
-
-                Nie masz jeszcze konta?
-
-              </p>
-
+            <p className="mt-6 border-t border-light-border/25 pt-5 text-center text-sm text-light-subtext dark:border-border/30 dark:text-subtext">
+              Nie masz jeszcze konta?{" "}
               <Link
                 to="/register"
-                className="btn mt-5 inline-flex h-14 items-center justify-center rounded-2xl border-2 border-orange-200 px-8 font-black text-orange-600 transition hover:bg-orange-50"
+                className="rounded-md font-bold text-[#a94d11] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-light-border dark:text-[#e27a31] dark:focus-visible:outline-border"
               >
                 Załóż konto
               </Link>
-
-            </div>
-
-            <div className="mt-10 rounded-3xl bg-orange-50 p-6">
-
-              <h3 className="text-lg font-black text-slate-900">
-                Dlaczego warto dołączyć?
-              </h3>
-
-              <ul className="mt-4 space-y-3 font-semibold text-slate-600">
-
-                <li>🐾 Wykonuj misje w swojej okolicy</li>
-
-                <li>⭐ Zdobywaj XP i odznaki</li>
-
-                <li>🏆 Rywalizuj w rankingu</li>
-
-                <li>❤️ Pomagaj kotom i fundacjom</li>
-
-              </ul>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-    </main>
+            </p>
+        </section>
+      </main>
+    </div>
   );
 }
