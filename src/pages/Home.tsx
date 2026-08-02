@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Moon, PawPrint, Sun } from "lucide-react";
+import { Award, Heart, MapPin, Moon, PawPrint, Sun } from "lucide-react";
 import PublicCatCatalog from "../components/landing/PublicCatCatalog";
 import ReportInfoDialog from "../components/landing/ReportInfoDialog";
 
@@ -154,6 +154,58 @@ export default function Home() {
         </section>
 
         <PublicCatCatalog />
+
+        <section
+          aria-label="Możliwości w Meowly"
+          className="mx-auto max-w-7xl px-5 py-20 sm:px-7 sm:py-24 lg:px-10"
+        >
+          <div className="grid gap-12 md:grid-cols-3 md:gap-10">
+            <article className="border-t border-light-border/35 pt-6 dark:border-border/35">
+              <MapPin
+                size={22}
+                strokeWidth={1.8}
+                className="text-[#c15a15] dark:text-[#d56b24]"
+                aria-hidden="true"
+              />
+              <h2 className="mt-5 text-2xl font-black leading-tight tracking-[-0.035em]">
+                Pomagaj lokalnie
+              </h2>
+              <p className="mt-3 max-w-sm leading-7 text-light-subtext dark:text-subtext">
+                Wykonuj misje i wspieraj fundacje oraz schroniska w swojej okolicy.
+              </p>
+            </article>
+
+            <article className="border-t border-light-border/35 pt-6 dark:border-border/35">
+              <Award
+                size={22}
+                strokeWidth={1.8}
+                className="text-[#c15a15] dark:text-[#d56b24]"
+                aria-hidden="true"
+              />
+              <h2 className="mt-5 text-2xl font-black leading-tight tracking-[-0.035em]">
+                Zdobywaj XP
+              </h2>
+              <p className="mt-3 max-w-sm leading-7 text-light-subtext dark:text-subtext">
+                Awansuj na kolejne poziomy, zdobywaj odznaki i rywalizuj z innymi.
+              </p>
+            </article>
+
+            <article className="border-t border-light-border/35 pt-6 dark:border-border/35">
+              <Heart
+                size={22}
+                strokeWidth={1.8}
+                className="text-[#c15a15] dark:text-[#d56b24]"
+                aria-hidden="true"
+              />
+              <h2 className="mt-5 text-2xl font-black leading-tight tracking-[-0.035em]">
+                Ratuj koty
+              </h2>
+              <p className="mt-3 max-w-sm leading-7 text-light-subtext dark:text-subtext">
+                Każde zgłoszenie i każda misja pomagają realnie poprawić los zwierząt.
+              </p>
+            </article>
+          </div>
+        </section>
 
         <section className="border-t border-light-border/30 px-5 py-24 text-center sm:px-7 sm:py-32 dark:border-border/30">
           <PawPrint className="mx-auto text-[#c15a15]" size={32} strokeWidth={1.8} aria-hidden="true" />
