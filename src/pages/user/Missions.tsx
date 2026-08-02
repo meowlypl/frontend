@@ -106,7 +106,7 @@ export function MissionTab() {
 
   if(error) console.log(error)
   return (
-    <main className="min-h-screen">
+    <main>
       <div className="w-full">
         <section className="mb-8">
           <h1 className="text-5xl font-black text-light-text dark:text-text">
@@ -121,7 +121,7 @@ export function MissionTab() {
         
         {loading ? (
           // Ładowanie
-          <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {[0,1,2].map((i) => (
             <div
               className={`h-103 flex flex-col rounded-3xl border-2 border-light-overlay dark:border-border p-6`}

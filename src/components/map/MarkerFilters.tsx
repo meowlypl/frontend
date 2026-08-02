@@ -27,7 +27,7 @@ export default function MarkerFilters({
   setSelectedType,
 }: Props) {
   return (
-    <div className="absolute top-34 left-84 z-100">
+    <div className="absolute top-34 left-84 z-100 overflow-hidden" style={{ maxWidth: 'calc(100vw - var(--spacing) * 95)' }}>
       
       <Input
         placeholder="Szukaj miejsca..."
@@ -36,7 +36,7 @@ export default function MarkerFilters({
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <div className="mt-2 flex flex-wrap gap-2">
+      <div className="mt-2 rounded-2xl flex gap-2 overflow-scroll" style={{ maxWidth: 'calc(100vw - var(--spacing) * 95)' }}>
 
         {filters.map((filter) => (
           <Button

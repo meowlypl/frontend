@@ -145,7 +145,7 @@ export default function MapView({
   last = now; */}
 
       {isAdmin && (
-        <div className="fixed top-34 right-6 z-[1000] rounded-3xl bg-light-overlay dark:bg-overlay p-5 pt-4 shadow-2xl">
+        <div className="fixed bottom-6 right-6 z-[1000] rounded-3xl bg-[#f0e3cca0] dark:bg-[#26180dcd] p-5 pt-4 shadow-2xl">
 
           <h3 className="text-lg font-black text-light-text dark:text-text">
             Administrator
