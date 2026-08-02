@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import AccountTypeSelector from "./AccountTypeSelector";
 import { api } from "../services/api";
@@ -41,6 +41,12 @@ export default function RegisterForm({
     : strengthScore >= 3
       ? "bg-amber-600 dark:bg-amber-500"
       : "bg-red-600 dark:bg-red-500";
+
+  useEffect(() => {
+    if (strengthScore < 5 && confirmPassword) {
+      setConfirmPassword("");
+    }
+  }, [confirmPassword, strengthScore]);
 
   async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -119,6 +125,22 @@ export default function RegisterForm({
 
   return (
     <form onSubmit={handleRegister}>
+      <style>{`
+        @keyframes register-confirm-password-fade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .register-confirm-password-reveal {
+          animation: register-confirm-password-fade 240ms ease-out both;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .register-confirm-password-reveal {
+            animation: none;
+          }
+        }
+      `}</style>
       <h1
         id="register-heading"
         className="mt-7 text-[2rem] font-black leading-none tracking-[-0.04em]"
@@ -180,83 +202,70 @@ export default function RegisterForm({
             placeholder="Minimum 8 znaków"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            aria-describedby={password ? "password-strength password-requirements" : undefined}
+            aria-describedby={password ? "password-strength" : undefined}
             className={inputClassName}
           />
-          {password && (
-            <div className="mt-2.5">
-              <div className="flex items-center justify-between gap-3 text-xs">
-                <span className="text-light-subtext dark:text-subtext">Siła hasła</span>
-                <span
-                  id="password-strength"
-                  aria-live="polite"
-                  className="font-bold text-light-text dark:text-text"
-                >
-                  {strengthLabel}
-                </span>
-              </div>
-              <div className="mt-1.5 grid grid-cols-5 gap-1" aria-hidden="true">
-                {[1, 2, 3, 4, 5].map((segment) => (
-                  <span
-                    key={segment}
-                    className={`h-1 rounded-sm ${
-                      segment <= strengthScore
-                        ? strengthColor
-                        : "bg-light-border/35 dark:bg-border/40"
-                    }`}
-                  />
-                ))}
-              </div>
-              <ul
-                id="password-requirements"
-                className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-light-subtext min-[380px]:grid-cols-3 dark:text-subtext"
-              >
-                {passwordChecks.map((check) => (
-                  <li
-                    key={check.label}
-                    className={check.met ? "text-emerald-700 dark:text-emerald-400" : undefined}
-                  >
-                    <span aria-hidden="true">{check.met ? "✓" : "·"}</span>{" "}
-                    {check.label}
-                    <span className="sr-only">{check.met ? " — spełnione" : " — niespełnione"}</span>
-                  </li>
-                ))}
-              </ul>
+          <div
+            aria-hidden={!password}
+            className={`mt-2 h-7 transition-opacity duration-200 motion-reduce:transition-none ${
+              password ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <div className="h-1 overflow-hidden rounded-sm bg-light-border/35 dark:bg-border/40" aria-hidden="true">
+              <div
+                className={`h-full ${strengthColor} transition-[width,background-color] duration-200 motion-reduce:transition-none`}
+                style={{ width: `${strengthScore * 20}%` }}
+              />
             </div>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="register-confirm-password" className="text-sm font-bold">
-            Powtórz hasło
-          </label>
-          <input
-            id="register-confirm-password"
-            name="confirmPassword"
-            type="password"
-            required
-            minLength={8}
-            autoComplete="new-password"
-            placeholder="Wpisz hasło ponownie"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            aria-describedby={confirmPassword ? "password-match" : undefined}
-            className={inputClassName}
-          />
-          {confirmPassword && (
             <p
-              id="password-match"
+              id="password-strength"
               aria-live="polite"
-              className={`mt-2 text-xs font-bold ${
-                password === confirmPassword
+              className={`mt-1 text-right text-[0.6875rem] font-medium ${
+                strengthScore === 5
                   ? "text-emerald-700 dark:text-emerald-400"
-                  : "text-red-700 dark:text-red-400"
+                  : strengthScore >= 3
+                    ? "text-amber-700 dark:text-amber-400"
+                    : "text-red-700 dark:text-red-400"
               }`}
             >
-              {password === confirmPassword ? "Hasła są zgodne" : "Hasła nie są zgodne"}
+              {password ? strengthLabel : ""}
             </p>
-          )}
+          </div>
         </div>
+
+        {strengthScore === 5 && (
+          <div className="register-confirm-password-reveal">
+            <label htmlFor="register-confirm-password" className="text-sm font-bold">
+              Powtórz hasło
+            </label>
+            <input
+              id="register-confirm-password"
+              name="confirmPassword"
+              type="password"
+              required
+              minLength={8}
+              autoComplete="new-password"
+              placeholder="Wpisz hasło ponownie"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              aria-describedby={confirmPassword ? "password-match" : undefined}
+              className={inputClassName}
+            />
+            {confirmPassword && (
+              <p
+                id="password-match"
+                aria-live="polite"
+                className={`mt-2 text-xs font-bold ${
+                  password === confirmPassword
+                    ? "text-emerald-700 dark:text-emerald-400"
+                    : "text-red-700 dark:text-red-400"
+                }`}
+              >
+                {password === confirmPassword ? "Hasła są zgodne" : "Hasła nie są zgodne"}
+              </p>
+            )}
+          </div>
+        )}
 
         {message && (
           <div
