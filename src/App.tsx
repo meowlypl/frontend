@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Verified from "./pages/Verified";
@@ -24,6 +25,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
