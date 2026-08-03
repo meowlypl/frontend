@@ -87,7 +87,13 @@ export default function ReportInfoDialog() {
           id="report-info-description"
           className="mt-4 max-w-[29rem] text-[0.9375rem] font-medium leading-6 text-light-subtext dark:text-subtext sm:text-base"
         >
-          Dodaj miejsce i krótki opis. Zgłoszenie trafi do mieszkańców i fundacji,
+          Dodaj w{" "}
+          <img
+            src="/logo-marketing.png"
+            alt="Meowly"
+            className="mx-1 inline-block h-[1.15em] w-auto align-[-0.16em] object-contain"
+          />{" "}
+          miejsce i krótki opis. Zgłoszenie trafi do mieszkańców i fundacji,
           które mogą pomóc.
         </p>
 
