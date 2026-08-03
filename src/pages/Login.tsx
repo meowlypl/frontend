@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Moon, Sun } from "lucide-react";
+import { startAuthentication } from "@simplewebauthn/browser";
 
 const API_URL = import.meta.env.VITE_API_URL;
 console.log("API_URL:", API_URL);
@@ -204,7 +205,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="btn inline-flex h-[52px] w-full items-center justify-center rounded-xl bg-[#c15a15] px-6 font-black text-white hover:bg-[#a94d11] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-border disabled:cursor-not-allowed disabled:opacity-60 dark:bg-[#d56b24] dark:hover:bg-[#e27a31] dark:focus-visible:outline-border"
+              className="btn mt-3 h-[52px] w-full rounded-xl bg-light-border dark:bg-border font-semibold text-white hover:brightness-110"
             >
               {loading ? "Logowanie..." : "Zaloguj się"}
             </button>
@@ -218,6 +219,36 @@ export default function Login() {
               </div>
             )}
             </form>
+
+            <button
+              className="btn mt-3 h-[52px] w-full rounded-xl bg-light-border dark:bg-border font-semibold text-white hover:brightness-110"
+              onClick={async () => {
+                const API = `${import.meta.env.VITE_API_URL}/passkey`
+                try {
+                  const opt = await (fetch(`${API}/opt/login`).then(r => r.json()))
+                  const credential = await startAuthentication({ optionsJSON: opt.options })
+
+                  const res = await (fetch(`${API}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ credential, token: opt.token }),
+                  })).then(r => r.json())
+
+                  if (res.verified) {
+                    localStorage.setItem(
+                      "meowlyUser",
+                      JSON.stringify(res.user)
+                    )
+                    return window.location.href = res.user.role == 'foundation' ? "/foundation/dashboard" : "/dashboard";
+                  }
+                } catch (e) {
+                  alert('Coś poszło nie tak')
+                }
+              }}
+            >
+              Użyj klucza dostępu
+            </button>
 
             <p className="mt-6 border-t border-light-border/25 pt-5 text-center text-sm text-light-subtext dark:border-border/30 dark:text-subtext">
               Nie masz jeszcze konta?{" "}
