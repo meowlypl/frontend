@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Award, Heart, MapPin, Moon, PawPrint, Sun } from "lucide-react";
 import PublicCatCatalog from "../components/landing/PublicCatCatalog";
 import ReportInfoDialog from "../components/landing/ReportInfoDialog";
+import { privacyPolicyDisabled } from "../config/features";
 
 function getInitialTheme() {
   return (
@@ -230,7 +231,9 @@ export default function Home() {
             <span>Koty w Twojej okolicy.</span>
           </div>
           <div className="flex items-center gap-5 font-bold">
-            <Link className="hover:text-light-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-border dark:hover:text-text dark:focus-visible:outline-border" to="/polityka-prywatnosci">Polityka prywatności</Link>
+            {!privacyPolicyDisabled && (
+              <Link className="hover:text-light-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-border dark:hover:text-text dark:focus-visible:outline-border" to="/polityka-prywatnosci">Polityka prywatności</Link>
+            )}
             <Link className="hover:text-light-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-border dark:hover:text-text dark:focus-visible:outline-border" to="/login">Logowanie</Link>
             <Link className="hover:text-light-text focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-light-border dark:hover:text-text dark:focus-visible:outline-border" to="/register">Rejestracja</Link>
           </div>

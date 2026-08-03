@@ -19,13 +19,17 @@ import Reports from "./pages/foundation/Reports";
 import Events from "./pages/foundation/Events";
 import Volunteers from "./pages/foundation/Volunteers";
 import Settings from "./pages/foundation/Settings";
+import { privacyPolicyDisabled } from "./config/features";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/polityka-prywatnosci" element={<PrivacyPolicy />} />
+        <Route
+          path="/polityka-prywatnosci"
+          element={privacyPolicyDisabled ? <Navigate to="/" replace /> : <PrivacyPolicy />}
+        />
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
