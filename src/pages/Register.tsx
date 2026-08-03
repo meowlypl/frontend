@@ -56,7 +56,7 @@ export default function Register() {
   useEffect(() => {
     if (!initialLoading) return;
 
-    const timer = window.setTimeout(() => setInitialLoading(false), 550);
+    const timer = window.setTimeout(() => setInitialLoading(false), 0);
     return () => window.clearTimeout(timer);
   }, [initialLoading]);
 

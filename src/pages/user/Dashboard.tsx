@@ -21,9 +21,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchUser() {
       fetch(`${import.meta.env.VITE_API_URL}/profile`, {
-        headers: {
-          authorization: localStorage.token
-        }
+        credentials: 'include'
       }).then(async r => {
         const res = await r.json()
         if(r.status == 401) {

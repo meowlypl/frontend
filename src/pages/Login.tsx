@@ -54,6 +54,7 @@ export default function Login() {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: 'include',
           body: JSON.stringify(user),
         }
       );
@@ -65,7 +66,6 @@ export default function Login() {
           "meowlyUser",
           JSON.stringify(data.user)
         )
-        localStorage.token = data.user.token
         return window.location.href = data.user.role == 'foundation' ? "/foundation/dashboard" : "/dashboard";
       }
 

@@ -97,7 +97,7 @@ export default function Home() {
           }
         }
       `}</style>
-      <header className="sticky top-0 z-50 border-b border-light-border/25 bg-light-base dark:border-border/30 dark:bg-base">
+      <header className="fixed w-full z-50 top-0 border-b border-light-border/25 bg-light-base dark:border-border/30 dark:bg-base">
         <nav
           aria-label="Główna nawigacja"
           className="mx-auto flex h-16 max-w-7xl items-center px-4 sm:px-7 lg:px-10"

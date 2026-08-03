@@ -18,6 +18,7 @@ import Reports from "./pages/foundation/Reports";
 import Events from "./pages/foundation/Events";
 import Volunteers from "./pages/foundation/Volunteers";
 import Settings from "./pages/foundation/Settings";
+import CookieConsent from "react-cookie-consent";
 
 export default function App() {
   return (
@@ -47,6 +48,19 @@ export default function App() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      <CookieConsent
+        location="bottom"
+        buttonText="OK"
+        style={localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches) ? 
+          { background: 'var(--color-overlay)', color: 'var(--color-text)', padding: '0 30px', borderTop: 'solid 2px var(--color-base)' } :
+          { background: 'var(--color-light-overlay)', color: 'var(--color-light-text)', padding: '0 2vw', borderTop: 'solid 2px var(--color-light-base)' }}
+        buttonClasses="btn mt-8 w-full font-semibold"
+        buttonStyle={{ borderRadius: 'var(--radius-xl)', background: 'var(--color-orange-500)', color: 'var(--color-white)', margin: '0', padding: '5px calc(var(--spacing) * 5)' }}
+        expires={150}
+      >
+        Ta strona używa plików cookie.
+      </CookieConsent>
     </BrowserRouter>
   );
 }

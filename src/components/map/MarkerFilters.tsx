@@ -27,11 +27,11 @@ export default function MarkerFilters({
   setSelectedType,
 }: Props) {
   return (
-    <div className="absolute top-34 left-84 z-100 overflow-hidden" style={{ maxWidth: 'calc(100vw - var(--spacing) * 95)' }}>
+    <div className="absolute top-34 left-84 z-100" style={{ maxWidth: 'calc(100vw - var(--spacing) * 95)' }}>
       
       <Input
         placeholder="Szukaj miejsca..."
-        className="shadow-2xl"
+        className="shadow-none"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
@@ -41,7 +41,7 @@ export default function MarkerFilters({
         {filters.map((filter) => (
           <Button
             key={filter.value}
-            className="shadow-5xl"
+            className="shadow-none"
             variant={
               selectedType === filter.value
                 ? "primary"

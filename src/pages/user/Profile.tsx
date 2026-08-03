@@ -25,9 +25,7 @@ export default function Profile() {
   useEffect(() => {
     async function fetchUser() {
       fetch(`${import.meta.env.VITE_API_URL}/profile`, {
-        headers: {
-          authorization: localStorage.token
-        }
+        credentials: 'include'
       }).then(async r => {
         const res = await r.json()
         if(r.status == 401) {
@@ -71,10 +69,7 @@ export default function Profile() {
     },
   ];
 
-  const [dark, setDark] = useState<boolean>();
-  useEffect(() => {
-    setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
-  }, [])
+  const [dark, setDark] = useState<boolean>(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
 
   return (
     <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">

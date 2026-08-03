@@ -57,10 +57,17 @@ export default function MapPage() {
     return matchesType && matchesSearch;
   });
 
-  const [dark, setDark] = useState<boolean>();
+  let [coords, setCoords] = useState<GeolocationCoordinates>()
+  let [refresh, setRefresh] = useState<number>(0)
   useEffect(() => {
-    setDark(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setCoords(position.coords)
+        setRefresh(refresh+1)
+      })
+    }
   }, [])
+  const [dark, setDark] = useState<boolean>(localStorage.theme === 'dark' || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));
 
   return (
     <main className="grid min-h-screen bg-light-base dark:bg-base dark:border-[#8b693a] shadow-2xl lg:grid-cols-[290px_1fr]">
@@ -82,9 +89,23 @@ export default function MapPage() {
           setSelectedType={setSelectedType}
         />
 
+        {coords ? (
+          <button
+            style={{ fontFamily: 'Material Symbols Outlined' }}
+            className="z-1000 btn rounded-[12px] fixed bottom-30.5 left-80.5 bg-light-overlay dark:bg-overlay text-light-subtext dark:text-subtext font-black text-xl w-10 h-10"
+            onClick={() => {
+              setRefresh((refresh||0)+1)
+            }}
+          >
+            location_on
+          </button>
+        ) : ''}
+
         <MapView
           markers={visibleMarkers}
           isAdmin={isAdmin}
+          refresh={refresh}
+          coords={coords}
           onAddMarker={(lat, lng) => {
             setSelectedPosition({ lat, lng });
             setModalOpen(true);

@@ -97,4 +97,8 @@
   .leaflet-bar {
     border: none !important;
   }
+
+  #sidebar::-webkit-scrollbar {
+    background-color: transparent;
+  }
 }

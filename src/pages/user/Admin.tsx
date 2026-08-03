@@ -25,9 +25,7 @@ export default function Admin() {
   useEffect(() => {
     async function fetchUser() {
       fetch(`${import.meta.env.VITE_API_URL}/profile`, {
-        headers: {
-          authorization: localStorage.token
-        }
+        credentials: 'include'
       }).then(async r => {
         const res = await r.json()
         if(r.status == 401) {
@@ -69,9 +67,7 @@ export default function Admin() {
       const response = await fetch(
         `${API_URL}/admin/users`,
         {
-          headers: {
-            authorization: localStorage.token
-          }
+          credentials: 'include'
         }
       );
 
@@ -114,9 +110,9 @@ export default function Admin() {
       `${API_URL}/admin/mission`,
       {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
-          authorization: localStorage.token
         },
         body: JSON.stringify({
           title,
@@ -143,9 +139,7 @@ export default function Admin() {
       `${API_URL}/admin/mission/${id}`,
       {
         method: "DELETE",
-        headers: {
-          authorization: localStorage.token
-        }
+        credentials: 'include'
       }
     )
 
@@ -159,9 +153,7 @@ export default function Admin() {
       `${API_URL}/admin/user/${id}`,
       {
         method: "DELETE",
-        headers: {
-          authorization: localStorage.token
-        }
+        credentials: 'include'
       }
     );
 
@@ -175,9 +167,7 @@ export default function Admin() {
       `${API_URL}/admin/session/${id}`,
       {
         method: "DELETE",
-        headers: {
-          authorization: localStorage.token
-        }
+        credentials: 'include'
       }
     );
 

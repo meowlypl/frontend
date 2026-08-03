@@ -5,7 +5,6 @@ import {
   Popup,
   Circle
 } from "react-leaflet";
-import { useEffect, useState } from "react";
 
 import "leaflet/dist/leaflet.css";
 
@@ -31,40 +30,29 @@ L.Icon.Default.mergeOptions({
 
 interface Props {
   markers: MarkerType[];
-
   isAdmin: boolean;
+  refresh: number;
+  coords: GeolocationCoordinates | undefined;
 
   refreshMarkers: () => void;
-
   onAddMarker: (
     lat: number,
     lng: number
   ) => void;
 }
 
-const center: { [id: string] : number } = {
-  latitude: 52.2297,
-  longitude: 21.0122
-}
-
 export default function MapView({
   markers,
   isAdmin,
+  refresh,
+  coords,
   refreshMarkers,
   onAddMarker,
 }: Props) {
-  let [coords, setCoords] = useState<GeolocationCoordinates>()
-  let [refresh, setRefresh] = useState<number>()
-  useEffect(() => {
-    if(navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setCoords(position.coords)
-        center.latitude = position.coords.latitude
-        center.longitude = position.coords.longitude
-        setRefresh((refresh||0)+1)
-      })
-    }
-  }, [])
+  const center: { [id: string] : number } = {
+    latitude: coords?.latitude || 52.2297,
+    longitude: coords?.longitude || 21.0122
+  }
   return (
     <div className="relative m-4 h-full z-0 rounded-[36px] overflow-hidden">
 
@@ -92,17 +80,6 @@ export default function MapView({
             fillColor="blue" 
             radius={coords.accuracy}/>
         ) : null}
-        {coords ? (
-          <button
-            style={{ fontFamily: 'Material Symbols Outlined' }}
-            className="z-1000 btn rounded-[12px] fixed bottom-30.5 left-80.5 bg-light-overlay dark:bg-overlay text-light-subtext dark:text-subtext font-black text-xl w-10 h-10"
-            onClick={() => {
-              setRefresh((refresh||0)+1)
-            }}
-          >
-            location_on
-          </button>
-        ) : ''}
 
         {markers.map((marker) => (
           <Marker
