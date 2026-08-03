@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Verified from "./pages/Verified";
@@ -19,12 +20,17 @@ import Events from "./pages/foundation/Events";
 import Volunteers from "./pages/foundation/Volunteers";
 import Settings from "./pages/foundation/Settings";
 import CookieConsent from "react-cookie-consent";
+import { privacyPolicyDisabled } from "./config/features";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route
+          path="/polityka-prywatnosci"
+          element={privacyPolicyDisabled ? <Navigate to="/" replace /> : <PrivacyPolicy />}
+        />
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
