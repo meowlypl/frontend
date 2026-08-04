@@ -48,14 +48,7 @@ export default function Login() {
 
     try {
       console.log("Łączę się z:", `${API_URL}/login`);
-      document.requestStorageAccess().then(
-        () => {
-          console.log("cookie access granted");
-        },
-        () => {
-          alert("cookie access denied, are you using safari?");
-        },
-      )
+      await document.requestStorageAccess()
       const response = await fetch(
         `${API_URL}/login`,
         {
