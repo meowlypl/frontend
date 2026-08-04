@@ -53,7 +53,7 @@ export default function Login() {
           console.log("cookie access granted");
         },
         () => {
-          console.log("cookie access denied");
+          alert("cookie access denied, are you using safari?");
         },
       )
       const response = await fetch(
