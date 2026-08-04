@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Moon, Sun } from "lucide-react";
 import { startAuthentication } from "@simplewebauthn/browser";
 
@@ -241,8 +241,9 @@ export default function Login() {
                       JSON.stringify(res.user)
                     )
                     return window.location.href = res.user.role == 'foundation' ? "/foundation/dashboard" : "/dashboard";
-                  }
+                  } else alert('Logowanie nie powiodło')
                 } catch (e) {
+                  console.error(e)
                   alert('Coś poszło nie tak')
                 }
               }}

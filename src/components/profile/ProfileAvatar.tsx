@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { startRegistration } from "@simplewebauthn/browser";
 
 import Card from "../ui/Card";
 import Button from "../ui/Button";
@@ -109,33 +108,6 @@ export default function ProfileAvatar({
           disabled
         >
           Zmień zdjęcie
-        </Button>
-
-        <Button
-          onClick={async () => {
-            const API = `${import.meta.env.VITE_API_URL}/passkey`
-            const opt = await (fetch(`${API}/opt/register`, {
-              method: 'POST',
-              credentials: 'include'
-            }).then(r => r.json()))
-
-            const credential = await startRegistration({ optionsJSON: opt });
-
-            const name = prompt('Nazwa klucza:')
-
-            const res = await (fetch(`${API}/register`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              credentials: 'include',
-              body: JSON.stringify({ credential, name })
-            }).then(r => r.json()))
-            if(res.verified) alert('registered!')
-          }}
-          className="mt-3 block w-full"
-          type="button"
-          fullWidth
-        >
-          Dodaj klucz dostępu
         </Button>
 
         <Button

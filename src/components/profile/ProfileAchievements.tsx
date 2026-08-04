@@ -31,7 +31,12 @@ export default function ProfileAchievements({
           </h3>
 
           <p className="mt-2 text-sm font-semibold text-light-subtext dark:text-subtext">
-            Misje
+            {completedMissions == 1 
+              ? 'Misja'
+              : completedMissions.toString().match(/(^|0|[2-9])[2-4]$/i)
+                ? 'Misje'
+                : 'Misji'
+            }
           </p>
 
         </div>
@@ -45,7 +50,12 @@ export default function ProfileAchievements({
           </h3>
 
           <p className="mt-2 text-sm font-semibold text-light-subtext dark:text-subtext">
-            Zgłoszenia
+            {reports == 1 
+              ? 'Zgłoszenie'
+              : reports.toString().match(/(^|0|[2-9])[2-4]$/i)
+                ? 'Zgłoszenia'
+                : 'Zgłoszeń'
+            }
           </p>
 
         </div>

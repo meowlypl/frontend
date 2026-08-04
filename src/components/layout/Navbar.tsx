@@ -34,10 +34,10 @@ export default function Navbar({ dark, setDark } : NavbarParams) {
         </p>
       </div>
 
-      <div className="flex items-center gap-5 ml-auto">
+      <div className="flex items-center gap-3 ml-auto">
 
         <button
-          className="btn text-2xl"
+          className="btn text-2xl hidden sm:inline"
           onClick={ () => {
             localStorage.theme = (dark ? 'light' : 'dark');
             document.documentElement.classList.toggle(
@@ -51,7 +51,7 @@ export default function Navbar({ dark, setDark } : NavbarParams) {
         </button>
         <button 
           style={{ fontFamily: 'Material Symbols Outlined' }}
-          className="sm:hidden btn inline text-3xl text-light-subtext dark:text-subtext mt-2"
+          className="sm:hidden btn inline text-3xl text-light-subtext dark:text-subtext"
           onClick={() => {
             setMenu(!menu)
           }}

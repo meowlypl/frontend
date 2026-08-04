@@ -7,6 +7,7 @@ import ProfileActivity from "../../components/profile/ProfileActivity";
 import ProfileSettings from "../../components/profile/ProfileSettings";
 import ChangePassword from "../../components/profile/ChangePassword";
 import { useEffect, useState } from "react";
+import Passkeys from "../../components/profile/Passkeys";
 
 type User = {
   id: number;
@@ -176,6 +177,8 @@ export default function Profile() {
                 />
 
                 <ChangePassword />
+
+                <Passkeys />
 
               </div>
 

@@ -8,7 +8,7 @@ const DATABASE_VERSION = 1;
 const STORE_NAME = "animals";
 
 function getFoundationId(): string {
-  const savedFoundation = localStorage.getItem("foundationUser");
+  const savedFoundation = localStorage.getItem("meowlyUser");
 
   if (!savedFoundation) {
     throw new Error("Fundacja nie jest zalogowana.");
