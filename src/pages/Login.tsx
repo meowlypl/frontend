@@ -48,6 +48,14 @@ export default function Login() {
 
     try {
       console.log("Łączę się z:", `${API_URL}/login`);
+      document.requestStorageAccess().then(
+        () => {
+          console.log("cookie access granted");
+        },
+        () => {
+          console.log("cookie access denied");
+        },
+      )
       const response = await fetch(
         `${API_URL}/login`,
         {
